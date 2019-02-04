@@ -196,6 +196,8 @@ function init() {
     //
     window.addEventListener( 'resize', onWindowResize, false );
 
+    setGunChoice();
+
     //#Decommente ça si tu es un homme
     solLunaire();
 
@@ -249,19 +251,11 @@ function animate() {
 
              if ((i === 0 || i === 1 || i === 7) && direction.z === 1) {
 
-<<<<<<< HEAD
                  direction.z = 0;
                  controls.getObject().position.z -= 10;
 
              } 
              else if ((i === 3 || i === 4 || i === 5) && direction.z === -1) {
-=======
-        // raycaster.ray.origin.copy( controls.getObject().position );
-        // raycaster.ray.origin.y -= 10;
-
-        // const intersections = raycaster.intersectObjects( objects );
-        // const onObject = intersections.length > 0;
->>>>>>> parent of 06d1d4d... Weapon choice
 
                  direction.z = 0;
                  controls.getObject().position.z += 10;
@@ -280,22 +274,9 @@ function animate() {
 
              }
 
-<<<<<<< HEAD
          }
 
 
-=======
-        // if ( onObject === true ) {
-
-        //     velocity.y = Math.max( 0, velocity.y );
-        //     canJump = true;
-
-        // }
-        
-        controls.getObject().translateX( velocity.x * delta );
-        controls.getObject().translateY( velocity.y * delta );
-        controls.getObject().translateZ( velocity.z * delta );
->>>>>>> parent of 06d1d4d... Weapon choice
 
          if ( controls.getObject().position.y < 10 ) {
 
@@ -307,12 +288,6 @@ function animate() {
 
          prevTime = time;
 
-<<<<<<< HEAD
-=======
-        prevTime = time;
-
-        
->>>>>>> parent of 06d1d4d... Weapon choice
     }
 
     renderer.render( scene, camera );
