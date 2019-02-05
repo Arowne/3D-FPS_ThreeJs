@@ -1,6 +1,7 @@
 var camera, scene, renderer, controls;
 var objects = [];
 var guns = [];
+var granades = [];
 var textArray = [];
 var raycaster;
 var moveForward = false;
@@ -13,6 +14,7 @@ var velocity = new THREE.Vector3();
 var direction = new THREE.Vector3();
 var vertex = new THREE.Vector3();
 var color = new THREE.Color();
+var weaponChoice = "gun";
 var rays = [
     new THREE.Vector3(0, 0, 1),
     new THREE.Vector3(1, 0, 1),
@@ -33,13 +35,20 @@ var counterContainer = document.getElementById( 'counter-container' );
 var stuff = {
     gun: '',
     grenade: '',
-    life: '',
+    life: 50,
     speed: ''
 }
+
+var game = {
+
+    started: false
+
+};
 
 init();
 animate();
 
+// Set floor texture
 function solLunaire(positionX, positionY,  positionZ) {
 
     const mtlLoader = new THREE.MTLLoader();
@@ -82,7 +91,7 @@ function solLunaire(positionX, positionY,  positionZ) {
     
 }
 
-
+// Init environnement
 function init() {
     
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -100,7 +109,6 @@ function init() {
         controls.lock();
 
     }, false );
-
 
     controls.addEventListener( 'lock', function () {
         instructions.style.display = 'none';
@@ -125,19 +133,6 @@ function init() {
         controls.lock();
 
     }, false );
-
-
-    controls.addEventListener( 'lock', function () {
-
-        var selectorContainer = document.getElementById( 'selector-container' );
-        var counterContainer = document.getElementById( 'counter-container' );
-
-        selectorContainer.style.display = 'none';
-        counterContainer.style.display = 'none';
-        counterContainer.innerHTML = ""
-
-    } );
-
 
 
     scene.add( controls.getObject() );
@@ -221,12 +216,13 @@ function init() {
     window.addEventListener( 'resize', onWindowResize, false );
 
     setGunChoice();
-
+    
     //#Decommente ça si tu es un homme
     // solLunaire();
 
 }
 
+// Resize canvas and camera
 function onWindowResize() {
 
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -240,7 +236,7 @@ function animate() {
     
     requestAnimationFrame( animate );
 
-     //Set raycaster position to controls position;
+     //Set raycaster position to controls position ray casting detection;
      raycaster.ray.origin.copy( controls.getObject().position );
      raycaster.ray.origin.y -= 10;
      raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3(), 0, 10);
@@ -277,29 +273,48 @@ function animate() {
 
                  direction.z = 0;
                  controls.getObject().position.z -= 10;
-                 getCurrentChoice(intersections, objects, selectorContainer, counterContainer);
-
+                 
+                 if(game.started === false ){
+                   
+                    getCurrentChoice(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                 
+                }
+                 
 
              } 
              else if ((i === 3 || i === 4 || i === 5) && direction.z === -1) {
 
                  direction.z = 0;
                  controls.getObject().position.z += 10;
-                 getCurrentChoice(intersections, objects, selectorContainer, counterContainer);
+                 
+                if(game.started === false ){
+                    console.log(game.started);
+                    getCurrentChoice(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                 
+                }
 
              }
              if ((i === 1 || i === 2 || i === 3) && direction.x === 1) {
                  
                  direction.x = 0;
                  controls.getObject().position.x -= 10;
-                 getCurrentChoice(intersections, objects, selectorContainer, counterContainer);
+                 
+                 if(game.started === false ){
+                   
+                    getCurrentChoice(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                 
+                }
                  
              } 
              else if ((i === 5 || i === 6 || i === 7) && direction.x === -1) {
 
                  direction.x = 0;
                  controls.getObject().position.x += 10;
-                 getCurrentChoice(intersections, objects, selectorContainer, counterContainer);
+                 if(game.started === false ){
+                 
+                    getCurrentChoice(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                    
+                 }
 
 
              }
@@ -315,6 +330,7 @@ function animate() {
              canJump = true;
              
          }
+
 
          prevTime = time;
 

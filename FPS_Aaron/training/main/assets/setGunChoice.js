@@ -1,6 +1,6 @@
 function setGunChoice(){
 
-    // Orientation text
+    // Set test indicator
     const textLoader = new THREE.FontLoader();
     const textMaterial = new THREE.MeshPhongMaterial({
         color: 0xffffff
@@ -23,16 +23,17 @@ function setGunChoice(){
 
         textArray.push(text);
         scene.add(text);
+
     });
 
     // Gun setting
     const gunArray = ["laser_gun", "mwpnfltgn", "XCom_laserRifle_obj", "XCom_rifle_obj"];
-    const Dust_explorerLoader = new THREE.MTLLoader();
+    const TextureLoader = new THREE.MTLLoader();
 
-    
-    Dust_explorerLoader.setTexturePath('/assets/gun_obj/');
-    Dust_explorerLoader.setPath('/assets/gun_obj/');
-    Dust_explorerLoader.load('mwpnfltgn.mtl', function (materials) {
+    // Load 3d gun object
+    TextureLoader.setTexturePath('/assets/gun_obj/');
+    TextureLoader.setPath('/assets/gun_obj/');
+    TextureLoader.load('mwpnfltgn.mtl', function (materials) {
 
         materials.preload();
 
@@ -50,7 +51,7 @@ function setGunChoice(){
                 object.position.y += 10;
                 gunArray[i] = object.position.x;
 
-                var geometry = new THREE.SphereGeometry( 20, 20, 20 );
+                var geometry = new THREE.BoxGeometry( 20, 20, 20 );
                 var material = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
                 var cube = new THREE.Mesh( geometry, material );
 
@@ -125,68 +126,31 @@ function setGunChoice(){
 
 }
 
+// Unset gun choice
 function unsetGunChoice(){
 
     for (let i = 0; i < guns.length; i++) {
         
-        scene.remove(guns[i]);
-        scene.remove(objects[i]);
+        if(guns[i]){
+
+            scene.remove(guns[i]);
+            
+        }
+
+        if(objects[i]){
+
+            scene.remove(objects[i]);
+
+        }
 
         if(textArray[i]){
 
             scene.remove(textArray[i]);
 
         }
+
+        objects = [];
         
-    }
-
-}
-
-function getCurrentChoice(intersections, objects, selectorContainer, counterContainer){
-
-    stopped = false;
-    counterContainer.innerHTML = "0";
-    for (let i = 0; i < objects.length; i++) {
-
-        const analyseObject = objects[i];
-        const currentUuid = intersections[0].object.uuid;
-        const counterHTML = document.getElementById('counter');
-        
-        
-        if( analyseObject.uuid === currentUuid ){
-
-            selectorContainer.style.display = 'block';
-            counterContainer.style.display = '';
-            controls.unlock();
-
-
-            setInterval(function(){
-                
-                if(counterContainer.innerHTML == '') {
-                    counter = 0;
-                    stopped = true;
-
-                }
-
-                if(stopped === false){
-
-                    counter += 1;
-                    counterContainer.innerHTML = counter;
-                    
-                    if( counter === 10 ){
-    
-                        stuff.gun = guns[i];
-                        guns[i].position.y += 50;
-                        objects[i].position.y += 50;
-                        unsetGunChoice();
-                        controls.lock();
-                    }
-
-                }
-
-            }, 1000);
-
-        }
     }
 
 }
