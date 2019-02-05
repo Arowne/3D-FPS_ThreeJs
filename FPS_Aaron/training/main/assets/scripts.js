@@ -1,5 +1,7 @@
 var camera, scene, renderer, controls;
 var objects = [];
+var guns = [];
+var textArray = [];
 var raycaster;
 var moveForward = false;
 var moveBackward = false;
@@ -20,7 +22,20 @@ var rays = [
     new THREE.Vector3(-1, 0, -1),
     new THREE.Vector3(-1, 0, 0),
     new THREE.Vector3(-1, 0, 1)
-]
+];
+
+var counter = 0;
+var stopped = false;
+
+var selectorContainer = document.getElementById( 'selector-container' );
+var counterContainer = document.getElementById( 'counter-container' );
+
+var stuff = {
+    gun: '',
+    grenade: '',
+    life: '',
+    speed: ''
+}
 
 init();
 animate();
@@ -64,27 +79,6 @@ function solLunaire(positionX, positionY,  positionZ) {
         });
 
     });
-
-    const Dust_explorerLoader = new THREE.MTLLoader();
-    Dust_explorerLoader.setTexturePath('/assets/obj_and_mtl/');
-    Dust_explorerLoader.setPath('/assets/obj_and_mtl/');
-    Dust_explorerLoader.load('Dust_explorer.mtl', function (materials) {
-
-        materials.preload();
-
-        const objLoader = new THREE.OBJLoader();
-        objLoader.setMaterials(materials);
-        objLoader.setPath('/assets/obj_and_mtl/');
-        objLoader.load('Dust_explorer.obj', function (object) {
-
-            object.position.set(-920, 30, -920);
-            object.scale.set(2.05, 2.05, 2.05);
-
-            scene.add(object);
-
-        });
-
-    });
     
 }
 
@@ -95,26 +89,56 @@ function init() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0x000000);
 
-
+    // Blockeur settings//
     controls = new THREE.PointerLockControls( camera );
+
     var blocker = document.getElementById( 'blocker' );
     var instructions = document.getElementById( 'instructions' );
 
     instructions.addEventListener( 'click', function () {
+
         controls.lock();
+
     }, false );
 
 
     controls.addEventListener( 'lock', function () {
         instructions.style.display = 'none';
+
         blocker.style.display = 'none';
+        counterContainer.innerHTML = "";
+
     } );
 
 
     controls.addEventListener( 'unlock', function () {
+
         blocker.style.display = 'block';
         instructions.style.display = '';
+
     } );
+
+
+
+    counterContainer.addEventListener( 'click', function () {
+        
+        controls.lock();
+
+    }, false );
+
+
+    controls.addEventListener( 'lock', function () {
+
+        var selectorContainer = document.getElementById( 'selector-container' );
+        var counterContainer = document.getElementById( 'counter-container' );
+
+        selectorContainer.style.display = 'none';
+        counterContainer.style.display = 'none';
+        counterContainer.innerHTML = ""
+
+    } );
+
+
 
     scene.add( controls.getObject() );
 
@@ -175,16 +199,16 @@ function init() {
     raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
     // // floor
-    // var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
-    // floorGeometry.MeshBasicMaterial
-    // floorGeometry.rotateX( - Math.PI / 2 );
+    var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
+    floorGeometry.MeshBasicMaterial
+    floorGeometry.rotateX( - Math.PI / 2 );
 
-    // position = floorGeometry.attributes.position;
+    position = floorGeometry.attributes.position;
     
-    // var floorMaterial = new THREE.MeshBasicMaterial( { color: 'red', wireframe: true} );
-    // var floor = new THREE.Mesh( floorGeometry, floorMaterial );
+    var floorMaterial = new THREE.MeshBasicMaterial( { color: 'red', wireframe: true} );
+    var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 
-    // scene.add( floor );
+    scene.add( floor );
 
     
     renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -199,7 +223,7 @@ function init() {
     setGunChoice();
 
     //#Decommente ça si tu es un homme
-    solLunaire();
+    // solLunaire();
 
 }
 
@@ -247,30 +271,36 @@ function animate() {
          controls.getObject().translateY( velocity.y * delta );
          controls.getObject().translateZ( velocity.z * delta );
          
-         if(onObject){
+         if(onObject && intersections[0].distance <= 10){
 
              if ((i === 0 || i === 1 || i === 7) && direction.z === 1) {
 
                  direction.z = 0;
                  controls.getObject().position.z -= 10;
+                 getCurrentChoice(intersections, objects, selectorContainer, counterContainer);
+
 
              } 
              else if ((i === 3 || i === 4 || i === 5) && direction.z === -1) {
 
                  direction.z = 0;
                  controls.getObject().position.z += 10;
+                 getCurrentChoice(intersections, objects, selectorContainer, counterContainer);
 
              }
              if ((i === 1 || i === 2 || i === 3) && direction.x === 1) {
                  
                  direction.x = 0;
                  controls.getObject().position.x -= 10;
+                 getCurrentChoice(intersections, objects, selectorContainer, counterContainer);
                  
              } 
              else if ((i === 5 || i === 6 || i === 7) && direction.x === -1) {
 
                  direction.x = 0;
                  controls.getObject().position.x += 10;
+                 getCurrentChoice(intersections, objects, selectorContainer, counterContainer);
+
 
              }
 

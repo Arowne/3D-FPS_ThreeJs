@@ -21,14 +21,15 @@ function setGunChoice(){
 
         text.scale.set(1, 1, 0.02)
 
+        textArray.push(text);
         scene.add(text);
-        
     });
 
     // Gun setting
     const gunArray = ["laser_gun", "mwpnfltgn", "XCom_laserRifle_obj", "XCom_rifle_obj"];
     const Dust_explorerLoader = new THREE.MTLLoader();
 
+    
     Dust_explorerLoader.setTexturePath('/assets/gun_obj/');
     Dust_explorerLoader.setPath('/assets/gun_obj/');
     Dust_explorerLoader.load('mwpnfltgn.mtl', function (materials) {
@@ -46,52 +47,18 @@ function setGunChoice(){
                 // object.scale.set(2.05, 2.05, 2.05);
                 object.position.x -= -75 + i*50;
                 object.position.z -= 100;
-                gunSelector[i] = object.position.x;
+                object.position.y += 10;
+                gunArray[i] = object.position.x;
 
-                var geometry = new THREE.BoxGeometry( 20, 20, 20 );
-                var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+                var geometry = new THREE.SphereGeometry( 20, 20, 20 );
+                var material = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
                 var cube = new THREE.Mesh( geometry, material );
 
-                switch (gunArray[i]) {
-                    case "laser_gun":
+                switch (i) {
+                    case 0:
                     
-                        object.traverse( function ( child ) {
-                            if ( child instanceof THREE.Mesh ) {
-                                child.material.color.setHex(0xDAA520);
-                            }
-                        });
-
-                        object.scale.set(0.3, 0.3, 0.3);
-
-                        break;
-                    
-                    case "mwpnfltgn":
-                        
-                        object.scale.set(5, 5, 5);
-                        object.rotation.y = 90 * Math.PI / 180;
-
-                        break;
-
-                    case "XCom_laserRifle_obj":
-
-                        const textureLoader = new THREE.TextureLoader();
-                        const map = textureLoader.load('https://s3.pixers.pics/pixers/700/FO/48/23/80/59/700_FO48238059_a2f8e49af0f6f9a7a6ab146755068fbf.jpg');
-                        const material = new THREE.MeshPhongMaterial({map: map});
-
-                        object.traverse( function ( child ) {
-                            if ( child instanceof THREE.Mesh ) {
-                                child.material = material
-                            }
-                        });
-
-                        object.scale.set(0.4, 0.4, 0.4);
-                        object.rotation.y = 90 * Math.PI / 180;
-                        break;
-                    
-                    case "XCom_rifle_obj":
-                        
                         const textureLoader2 = new THREE.TextureLoader();
-                        const map2 = textureLoader2.load('https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png');
+                        const map2 = textureLoader2.load('/assets/gun_obj/laser_gun_spec.png');
                         const material2 = new THREE.MeshPhongMaterial({map: map2});
 
                         object.traverse( function ( child ) {
@@ -100,28 +67,126 @@ function setGunChoice(){
                             }
                         });
 
+                        object.scale.set(0.2, 0.2, 0.2);
 
-                        object.scale.set(0.4, 0.4, 0.4);
-                        object.rotation.y = 0 * Math.PI / 180;
+                        break;
+                    
+                    case 1:
+                        
+                        object.scale.set(4, 4, 4);
+                        object.rotation.y = 90 * Math.PI / 180;
+
+                        break;
+
+                    case 2:
+
+                        object.traverse( function ( child ) {
+                            if ( child instanceof THREE.Mesh ) {
+                                child.material.color.setHex(0xDAA520);
+                            }
+                        });
+
+
+                        object.scale.set(0.3, 0.3, 0.3);
+                        object.rotation.y = 90 * Math.PI / 180;
+                        break;
+                    
+                    case 3:
+                        
+                        object.traverse( function ( child ) {
+                            if ( child instanceof THREE.Mesh ) {
+                                child.material.color.setHex(0xDAA520);
+                            }
+                        });
+
+
+                        object.scale.set(0.3, 0.3, 0.3);
                         break;
 
 
                     default:
                         break;
                 }
-                
+
+                cube.position.y = object.position.y
                 cube.position.x = object.position.x
                 cube.position.z = object.position.z
-                cube.position.y = object.position.y
+
+                objects.push( cube );
                 scene.add( cube );
-
-                objects.push(cube);
-
-                scene.add(object);
+                
+                guns.push( object );
+                scene.add( object );
     
             });
         }
 
     });
+
+}
+
+function unsetGunChoice(){
+
+    for (let i = 0; i < guns.length; i++) {
+        
+        scene.remove(guns[i]);
+        scene.remove(objects[i]);
+
+        if(textArray[i]){
+
+            scene.remove(textArray[i]);
+
+        }
+        
+    }
+
+}
+
+function getCurrentChoice(intersections, objects, selectorContainer, counterContainer){
+
+    stopped = false;
+    counterContainer.innerHTML = "0";
+    for (let i = 0; i < objects.length; i++) {
+
+        const analyseObject = objects[i];
+        const currentUuid = intersections[0].object.uuid;
+        const counterHTML = document.getElementById('counter');
+        
+        
+        if( analyseObject.uuid === currentUuid ){
+
+            selectorContainer.style.display = 'block';
+            counterContainer.style.display = '';
+            controls.unlock();
+
+
+            setInterval(function(){
+                
+                if(counterContainer.innerHTML == '') {
+                    counter = 0;
+                    stopped = true;
+
+                }
+
+                if(stopped === false){
+
+                    counter += 1;
+                    counterContainer.innerHTML = counter;
+                    
+                    if( counter === 10 ){
+    
+                        stuff.gun = guns[i];
+                        guns[i].position.y += 50;
+                        objects[i].position.y += 50;
+                        unsetGunChoice();
+                        controls.lock();
+                    }
+
+                }
+
+            }, 1000);
+
+        }
+    }
 
 }
