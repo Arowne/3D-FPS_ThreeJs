@@ -58,16 +58,17 @@ function setGunChoice(){
                 switch (i) {
                     case 0:
                     
-                        const textureLoader2 = new THREE.TextureLoader();
-                        const map2 = textureLoader2.load('/assets/gun_obj/laser_gun_spec.png');
-                        const material2 = new THREE.MeshPhongMaterial({map: map2});
 
+                        const textureLoader = new THREE.TextureLoader();
+                        const map = textureLoader.load('/assets/gun_obj/laser_gun_diffuse.png');
+                        const material = new THREE.MeshPhongMaterial({map: map});
+                        
                         object.traverse( function ( child ) {
                             if ( child instanceof THREE.Mesh ) {
-                                child.material = material2
+                                child.material = material
                             }
                         });
-
+                        
                         object.scale.set(0.2, 0.2, 0.2);
 
                         break;

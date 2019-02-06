@@ -267,12 +267,12 @@ function animate() {
          controls.getObject().translateY( velocity.y * delta );
          controls.getObject().translateZ( velocity.z * delta );
          
-         if(onObject && intersections[0].distance <= 10){
+         if(onObject && intersections[0].distance <= 15){
 
              if ((i === 0 || i === 1 || i === 7) && direction.z === 1) {
 
                  direction.z = 0;
-                 controls.getObject().position.z -= 10;
+                 controls.getObject().position.z -= 15;
                  
                  if(game.started === false ){
                    
@@ -285,10 +285,9 @@ function animate() {
              else if ((i === 3 || i === 4 || i === 5) && direction.z === -1) {
 
                  direction.z = 0;
-                 controls.getObject().position.z += 10;
+                 controls.getObject().position.z += 15;
                  
                 if(game.started === false ){
-                    console.log(game.started);
                     getCurrentChoice(intersections, objects, selectorContainer, counterContainer, weaponChoice);
                  
                 }
@@ -297,7 +296,7 @@ function animate() {
              if ((i === 1 || i === 2 || i === 3) && direction.x === 1) {
                  
                  direction.x = 0;
-                 controls.getObject().position.x -= 10;
+                 controls.getObject().position.x -= 15;
                  
                  if(game.started === false ){
                    
@@ -309,7 +308,7 @@ function animate() {
              else if ((i === 5 || i === 6 || i === 7) && direction.x === -1) {
 
                  direction.x = 0;
-                 controls.getObject().position.x += 10;
+                 controls.getObject().position.x += 15;
                  if(game.started === false ){
                  
                     getCurrentChoice(intersections, objects, selectorContainer, counterContainer, weaponChoice);

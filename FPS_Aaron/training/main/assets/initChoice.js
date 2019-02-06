@@ -44,6 +44,10 @@ function getCurrentChoice(intersections, objects, selectorContainer, counterCont
                             stuff.gun = guns[i];
                             played = false;
 
+                            selectorContainer.style.display = 'none';
+                            counterContainer.style.display = 'none';
+                            controls.lock();
+
                             guns[i].position.y += 50;
                             objects[i].position.y += 50;
 

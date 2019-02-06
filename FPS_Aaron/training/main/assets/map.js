@@ -1,7 +1,8 @@
 //Miss png
-// 2 == atterisseur
-// 3 == base nasa
+// 2 == atterisseur (Mettre au centre de la map)
+// 3 == base nasa (en mettre plusieur ?)
 // 4 == rover
+// 5 == Observatoir (en mettre plusieur ?)
 
 
 
@@ -19,7 +20,7 @@ function generateMap(){
         [0,0,0,1,2,1,1,0,0,0],
         [0,0,0,1,1,1,1,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,5,0,0],
         [0,3,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0]
     ];
@@ -73,7 +74,6 @@ function generateMap(){
                                     scene.add( cube );
                                     
                                     object.scale.set(0.1, 0.1, 0.1);
-                                    guns.push( object );
                                     scene.add( object );
                         
                                 });
@@ -139,6 +139,19 @@ function generateMap(){
                                     object.position.z -= 100;
                                     
                                     object.scale.set(1, 1, 1);
+
+                                    var geometry = new THREE.BoxGeometry( 120, 100, 100 );
+                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
+                                    var cube = new THREE.Mesh( geometry, material2 );
+
+
+                                    cube.position.y = object.position.y
+                                    cube.position.x = object.position.x
+                                    cube.position.z = object.position.z
+
+                                    objects.push( cube );
+                                    scene.add( cube );
+
                                     scene.add( object );
 
                                 });
@@ -168,12 +181,63 @@ function generateMap(){
                                     object.position.z -= 100;
                                     
                                     object.scale.set(7, 7, 7);
+
+                                    var geometry = new THREE.BoxGeometry( 100, 100, 100 );
+                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
+                                    var cube = new THREE.Mesh( geometry, material2 );
+
+
+                                    cube.position.y = object.position.y
+                                    cube.position.x = object.position.x
+                                    cube.position.z = object.position.z
+
+                                    objects.push( cube );
+                                    scene.add( cube );
+
                                     scene.add( object );
 
                                 });
 
                         });
                     
+                    break;
+
+                    case 5:
+
+                            const objLoader = new THREE.OBJLoader();
+
+                            objLoader.setPath('/assets/building_obj/');
+                            objLoader.load('Observatory.obj', function (object) {
+                    
+                                object.position.x += 100;
+                                
+                                object.scale.set(0.1, 0.1, 0.1);
+
+                                var geometry = new THREE.BoxGeometry( 100, 100, 100 );
+                                var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
+                                var cube = new THREE.Mesh( geometry, material2 );
+
+                                const textureLoader = new THREE.TextureLoader();
+                                const map = textureLoader.load('/assets/building_obj/Observatory.jpg');
+                                const material = new THREE.MeshPhongMaterial({map: map});
+                                
+                                object.traverse( function ( child ) {
+                                    if ( child instanceof THREE.Mesh ) {
+                                        child.material = material
+                                    }
+                                });
+
+                                cube.position.y = object.position.y
+                                cube.position.x = object.position.x
+                                cube.position.z = object.position.z
+
+                                objects.push( cube );
+                                scene.add( cube );
+
+                                scene.add( object );
+
+                            });
+                
                     break;
                         
                 default:
