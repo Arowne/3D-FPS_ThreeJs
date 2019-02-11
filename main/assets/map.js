@@ -13,24 +13,71 @@
 function generateMap(){
 
     const map = [
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,4,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,1,1,1,1,0,0,0],
-        [0,0,0,1,2,1,1,0,0,0],
-        [0,0,0,1,1,1,1,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,5,0,0],
-        [0,3,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0]
+        [0,0,0,0,0,0,1,1,0,0,0,0,0,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,0,0,0,0,0,1,1,0,0,0,0,0,0]
     ];
 
     for(let i = 0; i < map.length ; i++){
 
 
         for( let j = 0; j < map[i].length; j++){
-            
+
+            let xDistance = 50;
+            let zDistance = 50;
+
+            //initial offset so does not start in middle.
+            let xOffset = -80;
+
             switch (map[i][j]) {
+                case 0:
+
+                    var geometry = new THREE.BoxGeometry(30,100,30);
+
+                    const textureLoader = new THREE.TextureLoader();
+                    const map = textureLoader.load('/assets/building_obj/wood2.jpg');
+                    var material = new THREE.MeshPhongMaterial({map:map});
+
+
+
+                    var mesh  = new THREE.Mesh(geometry, material);
+                    mesh.position.x = (xDistance * i);
+                  //  mesh.position.y = (yDistance * i);
+                    mesh.position.z = (zDistance * j);
+
+                    scene.add(mesh);
+
+
+                    break;
+
+                case 2:
+
+                    var geometry2 = new THREE.BoxGeometry(30,100,30);
+                    var material2 = new THREE.MeshBasicMaterial({color:0x00ff44});
+
+
+                    var mesh2  = new THREE.Mesh(geometry2, material2);
+                    mesh2.position.x = (xDistance * i) + xOffset;
+                    mesh2.position.z = (zDistance * j);
+
+                    scene.add(mesh2);
+
+                    break;
+
                 case 3:
 
                         const TextureLoader = new THREE.MTLLoader();
@@ -49,6 +96,7 @@ function generateMap(){
                                 objLoader.load('HDU_lowRez.obj', function (object) {
                         
                                     object.position.x -= -75 + i*50;
+                                    object.position.y -= 100;
                                     object.position.z -= 100;
 
                                     const textureLoader = new THREE.TextureLoader();
@@ -118,7 +166,7 @@ function generateMap(){
 
                     break;
 
-                    case 2:
+                    case 6:
 
                         const LanderTextureLoader = new THREE.MTLLoader();
                     

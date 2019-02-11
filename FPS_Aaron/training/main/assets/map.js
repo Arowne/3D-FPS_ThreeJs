@@ -29,7 +29,7 @@ function generateMap(){
     ];
 
     for(let i = 0; i < map.length ; i++){
-
+        console.log('hahahaha');
 
         for( let j = 0; j < map[i].length; j++){
             
@@ -52,7 +52,7 @@ function generateMap(){
                                 objLoader.load('HDU_lowRez.obj', function (object) {
                                     
                                     // ICI ALGO POUR CHANGER LA POSITION
-                                    object.position.x -= -75 + i*50;
+                                    object.position.x -= 75 + i*50;
                                     object.position.z -= 100;
 
                                     const textureLoader = new THREE.TextureLoader();
@@ -78,7 +78,7 @@ function generateMap(){
                                     scene.add( cube );
                                     
                                     object.scale.set(0.1, 0.1, 0.1);
-                                    scene.add( object );
+                                 //   scene.add( object );
                         
                                 });
 
