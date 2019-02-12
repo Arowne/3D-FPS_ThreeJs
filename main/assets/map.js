@@ -49,9 +49,8 @@ function generateMap(){
                     var geometry = new THREE.BoxGeometry(30,100,30);
 
                     const textureLoader = new THREE.TextureLoader();
-                    const map = textureLoader.load('/assets/building_obj/wood2.jpg');
-                    var material = new THREE.MeshPhongMaterial({map:map});
-
+                    const textureMap = textureLoader.load('/assets/texture/461223110.jpg');
+                    var material = new THREE.MeshPhongMaterial({map:textureMap});
 
 
                     var mesh  = new THREE.Mesh(geometry, material);
@@ -60,21 +59,6 @@ function generateMap(){
                     mesh.position.z = (zDistance * j);
 
                     scene.add(mesh);
-
-
-                    break;
-
-                case 2:
-
-                    var geometry2 = new THREE.BoxGeometry(30,100,30);
-                    var material2 = new THREE.MeshBasicMaterial({color:0x00ff44});
-
-
-                    var mesh2  = new THREE.Mesh(geometry2, material2);
-                    mesh2.position.x = (xDistance * i) + xOffset;
-                    mesh2.position.z = (zDistance * j);
-
-                    scene.add(mesh2);
 
                     break;
 
@@ -303,7 +287,6 @@ function generateMap(){
                                 console.error( e );
                             } );
 
-                default:
                     break;
             }
 
