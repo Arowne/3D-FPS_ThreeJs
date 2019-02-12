@@ -3,10 +3,7 @@ var objects = [];
 var guns = [];
 var granades = [];
 var textArray = [];
-
 var raycaster;
-var raycasterPNJ;
-
 var moveForward = false;
 var moveBackward = false;
 var moveLeft = false;
@@ -21,10 +18,10 @@ var weaponChoice = "gun";
 var rays = [
     new THREE.Vector3(0, 0, 1),
     new THREE.Vector3(1, 0, 1),
-    new THREE.Vector3(1, 0, 0),
     new THREE.Vector3(1, 0, -1),
     new THREE.Vector3(0, 0, -1),
     new THREE.Vector3(-1, 0, -1),
+    new THREE.Vector3(1, 0, 0),
     new THREE.Vector3(-1, 0, 0),
     new THREE.Vector3(-1, 0, 1)
 ];
@@ -196,8 +193,7 @@ function init() {
     document.addEventListener( 'keydown', onKeyDown, false );
     document.addEventListener( 'keyup', onKeyUp, false );
 
-    raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, 0, 0 ), 0, 10 );
-    raycasterPNJ = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, 0, 0 ), 0, 10 );
+    raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
     // // floor
     var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
@@ -286,7 +282,6 @@ function animate() {
      //Set raycaster position to controls position ray casting detection;
      raycaster.ray.origin.copy( controls.getObject().position );
      raycaster.ray.origin.y -= 10;
-     raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3(), 0, 10);
 
 
     var dt = clock.getDelta();
@@ -372,20 +367,14 @@ function animate() {
          }
 
 
-        if(model){
 
-            var PNJIntersections = raycaster.intersectObjects( objects );
-            var PNJOnObject = PNJIntersections.length > 0;
-            raycasterPNJ.set(model.position , rays[i]);
+         if ( controls.getObject().position.y < 10 ) {
 
-
-            if(PNJOnObject && PNJIntersections[0].distance <= 10){
-
-                console.log('hit');
-   
-            }
-
-        }
+             velocity.y = 0;
+             controls.getObject().position.y = 10;
+             canJump = true;
+             
+         }
 
 
          prevTime = time;

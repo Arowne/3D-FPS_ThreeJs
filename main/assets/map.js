@@ -13,55 +13,24 @@
 function generateMap(){
 
     const map = [
-        [0,0,0,0,0,0,1,1,0,0,0,0,0,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,0,0,0,0,0,1,1,0,0,0,0,0,0]
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,4,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,1,1,1,1,0,0,0],
+        [0,0,0,1,2,1,1,0,0,0],
+        [0,0,0,1,1,1,1,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,6,0,0,5,0,0],
+        [0,3,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0]
     ];
 
     for(let i = 0; i < map.length ; i++){
 
 
         for( let j = 0; j < map[i].length; j++){
-
-            let xDistance = 50;
-            let zDistance = 50;
-
-            //initial offset so does not start in middle.
-            let xOffset = -80;
-
+            
             switch (map[i][j]) {
-                case 0:
-
-                    var geometry = new THREE.BoxGeometry(30,100,30);
-
-                    const textureLoader = new THREE.TextureLoader();
-                    const textureMap = textureLoader.load('/assets/texture/461223110.jpg');
-                    var material = new THREE.MeshPhongMaterial({map:textureMap});
-
-
-                    var mesh  = new THREE.Mesh(geometry, material);
-                    mesh.position.x = (xDistance * i);
-                  //  mesh.position.y = (yDistance * i);
-                    mesh.position.z = (zDistance * j);
-
-                    scene.add(mesh);
-
-                    break;
-
                 case 3:
 
                         const TextureLoader = new THREE.MTLLoader();
@@ -80,7 +49,6 @@ function generateMap(){
                                 objLoader.load('HDU_lowRez.obj', function (object) {
                         
                                     object.position.x -= -75 + i*50;
-                                    object.position.y -= 100;
                                     object.position.z -= 100;
 
                                     const textureLoader = new THREE.TextureLoader();
@@ -272,21 +240,22 @@ function generateMap(){
                 
                     break;
 
-                    case 6:
-
+                    case 6: 
+                            
                             // personage
                             var loader = new THREE.GLTFLoader();
                             loader.load( '/assets/models/gltf/RobotExpressive/RobotExpressive.glb', function( gltf ) {
-
+                                
                                 model = gltf.scene;
                                 gltf.scene.scale.set(5, 5, 5);
                                 scene.add( model );
                                 animatePNJ( model, gltf.animations );
-
+                                
                             }, undefined, function( e ) {
                                 console.error( e );
                             } );
-
+                        
+                default:
                     break;
             }
 
