@@ -53,6 +53,7 @@ var pnjDirection = {
     
 };
 
+
 init();
 animate();
 
@@ -304,6 +305,10 @@ function animate() {
     }
     
     scene.add(stuff.gun);
+    if(stuff.gun){
+        stuff.gun.rotation.y = 1,6;
+    }
+
     
     //Set raycaster position to controls position ray casting detection;
     raycaster.ray.origin.copy( controls.getObject().position );
