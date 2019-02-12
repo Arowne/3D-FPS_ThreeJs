@@ -14,14 +14,14 @@ function generateMap(){
 
     const map = [
         [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,4,0,0,0,0],
+        [0,3,0,0,0,4,0,0,3,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,1,1,1,1,0,0,0],
         [0,0,0,1,2,1,1,0,0,0],
         [0,0,0,1,1,1,1,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,6,0,0,5,0,0],
-        [0,3,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,3,0,0,0,0,0,0,3,0],
         [0,0,0,0,0,0,0,0,0,0]
     ];
 
@@ -48,8 +48,8 @@ function generateMap(){
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('HDU_lowRez.obj', function (object) {
                         
-                                    object.position.x -= -75 + i*50;
-                                    object.position.z -= 100;
+                                    object.position.x = 75 + i*50;
+                                    object.position.z = 100;
 
                                     const textureLoader = new THREE.TextureLoader();
                                     const map = textureLoader.load('/assets/building_obj/HDU_01.jpg');
@@ -94,8 +94,8 @@ function generateMap(){
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('HDU_lowRez_part2.obj', function (object) {
                         
-                                    object.position.x -= -75 + i*50;
-                                    object.position.z -= 100;
+                                    object.position.x = 75 + i*50;
+                                    object.position.z = 100;
 
                                     const textureLoader = new THREE.TextureLoader();
                                     const map = textureLoader.load('/assets/building_obj/HDU_02.jpg');
@@ -113,7 +113,6 @@ function generateMap(){
                                 });
 
                         });
-
 
 
                     break;
