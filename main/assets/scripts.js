@@ -15,6 +15,8 @@ var direction = new THREE.Vector3();
 var vertex = new THREE.Vector3();
 var color = new THREE.Color();
 var weaponChoice = "gun";
+
+
 var rays = [
     new THREE.Vector3(0, 0, 1),
     new THREE.Vector3(1, 0, 1),
@@ -37,7 +39,7 @@ var stuff = {
     grenade: '',
     life: 50,
     speed: ''
-}
+};
 
 var game = {
 
@@ -45,8 +47,15 @@ var game = {
 
 };
 
+var pnjDirection = {
+
+    direction: 1
+    
+};
+
 init();
 animate();
+
 
 // Set floor texture
 function solLunaire(positionX, positionY,  positionZ) {
@@ -269,13 +278,28 @@ function animatePNJ( model, animations ) {
 
 function animate() {
 
-    
+
     requestAnimationFrame( animate );
 
     if(model){
 
-        model.position.z += 0.2;
-        model.rotation.y += 0.02;    
+        model.position.z += pnjDirection.direction;
+        
+        for (let i = 0; i < objects.length; i++) {
+
+            const object = objects[i];
+            firstBB = new THREE.Box3().setFromObject(model);
+            secondBB = new THREE.Box3().setFromObject(object);
+        
+            var collision = firstBB.isIntersectionBox(secondBB);
+
+            if(collision){
+
+                pnjDirection.direction = -1;     
+                model.rotation.y += 3,14159;
+                
+            }
+        }
 
     }
     

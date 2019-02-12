@@ -248,6 +248,7 @@ function generateMap(){
                                 
                                 model = gltf.scene;
                                 gltf.scene.scale.set(5, 5, 5);
+                                model.position.z -= 1000;
                                 scene.add( model );
                                 animatePNJ( model, gltf.animations );
                                 
