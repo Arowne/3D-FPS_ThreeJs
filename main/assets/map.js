@@ -20,7 +20,7 @@ function generateMap(){
         [0,0,0,1,2,1,1,0,0,0],
         [0,0,0,1,1,1,1,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,5,0,0],
+        [0,0,0,0,6,0,0,5,0,0],
         [0,3,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0]
     ];
@@ -239,6 +239,21 @@ function generateMap(){
                             });
                 
                     break;
+
+                    case 6: 
+                            
+                            // personage
+                            var loader = new THREE.GLTFLoader();
+                            loader.load( '/assets/models/gltf/RobotExpressive/RobotExpressive.glb', function( gltf ) {
+                                
+                                model = gltf.scene;
+                                gltf.scene.scale.set(5, 5, 5);
+                                scene.add( model );
+                                animatePNJ( model, gltf.animations );
+                                
+                            }, undefined, function( e ) {
+                                console.error( e );
+                            } );
                         
                 default:
                     break;

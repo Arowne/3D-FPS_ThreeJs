@@ -1,9 +1,12 @@
-var camera, scene, renderer, controls;
+var camera, scene, renderer, controls, clock, mixer, actions, activeAction, previousAction, model;
 var objects = [];
 var guns = [];
 var granades = [];
 var textArray = [];
+
 var raycaster;
+var raycasterPNJ;
+
 var moveForward = false;
 var moveBackward = false;
 var moveLeft = false;
@@ -94,6 +97,8 @@ function solLunaire(positionX, positionY,  positionZ) {
 // Init environnement
 function init() {
     
+    clock = new THREE.Clock();
+
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0x000000);
@@ -191,7 +196,8 @@ function init() {
     document.addEventListener( 'keydown', onKeyDown, false );
     document.addEventListener( 'keyup', onKeyUp, false );
 
-    raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+    raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, 0, 0 ), 0, 10 );
+    raycasterPNJ = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, 0, 0 ), 0, 10 );
 
     // // floor
     var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
@@ -210,10 +216,15 @@ function init() {
 
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
+
+    renderer.gammaOutput = true;
+    renderer.gammaFactor = 2.2;
+
     document.body.appendChild( renderer.domElement );
     
     //
     window.addEventListener( 'resize', onWindowResize, false );
+
 
     setGunChoice();
     
@@ -231,15 +242,55 @@ function onWindowResize() {
     
 }
 
+function animatePNJ( model, animations ) {
+
+    var states = [ 'Idle', 'Walking', 'Running', 'Dance', 'Death', 'Sitting', 'Standing' ];
+    
+    mixer = new THREE.AnimationMixer( model );
+    actions = {};
+
+    for ( var i = 0; i < animations.length; i++ ) {
+
+        var clip = animations[ i ];
+        var action = mixer.clipAction( clip );
+        actions[ clip.name ] = action;
+
+        if ( states.indexOf( clip.name ) >= 5 ) {
+
+                action.clampWhenFinished = true;
+                action.loop = THREE.LoopOnce;
+                
+        }
+
+    }
+
+    activeAction = actions['Walking'];
+    
+    activeAction.play();
+    
+}
+
+
 function animate() {
 
     
     requestAnimationFrame( animate );
 
+    if(model){
+
+        model.position.z += 0.2;
+        model.rotation.y += 0.02;    
+
+    }
+    
      //Set raycaster position to controls position ray casting detection;
      raycaster.ray.origin.copy( controls.getObject().position );
      raycaster.ray.origin.y -= 10;
      raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3(), 0, 10);
+
+
+    var dt = clock.getDelta();
+    if ( mixer ) mixer.update( dt );
          
      
     for (let i = 0; i < rays.length; i++){
@@ -267,7 +318,7 @@ function animate() {
          controls.getObject().translateY( velocity.y * delta );
          controls.getObject().translateZ( velocity.z * delta );
          
-         if(onObject && intersections[0].distance <= 15){
+         if(onObject && intersections[0].distance <= 10){
 
              if ((i === 0 || i === 1 || i === 7) && direction.z === 1) {
 
@@ -321,14 +372,20 @@ function animate() {
          }
 
 
+        if(model){
 
-         if ( controls.getObject().position.y < 10 ) {
+            var PNJIntersections = raycaster.intersectObjects( objects );
+            var PNJOnObject = PNJIntersections.length > 0;
+            raycasterPNJ.set(model.position , rays[i]);
 
-             velocity.y = 0;
-             controls.getObject().position.y = 10;
-             canJump = true;
-             
-         }
+
+            if(PNJOnObject && PNJIntersections[0].distance <= 10){
+
+                console.log('hit');
+   
+            }
+
+        }
 
 
          prevTime = time;
