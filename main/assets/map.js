@@ -166,7 +166,7 @@ function generateMap(){
 
                     break;
 
-                    case 6:
+                    case 2:
 
                         const LanderTextureLoader = new THREE.MTLLoader();
                     
@@ -287,7 +287,22 @@ function generateMap(){
                             });
                 
                     break;
-                        
+
+                    case 6:
+
+                            // personage
+                            var loader = new THREE.GLTFLoader();
+                            loader.load( '/assets/models/gltf/RobotExpressive/RobotExpressive.glb', function( gltf ) {
+
+                                model = gltf.scene;
+                                gltf.scene.scale.set(5, 5, 5);
+                                scene.add( model );
+                                animatePNJ( model, gltf.animations );
+
+                            }, undefined, function( e ) {
+                                console.error( e );
+                            } );
+
                 default:
                     break;
             }
