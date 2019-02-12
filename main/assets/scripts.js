@@ -303,9 +303,11 @@ function animate() {
 
     }
     
-     //Set raycaster position to controls position ray casting detection;
-     raycaster.ray.origin.copy( controls.getObject().position );
-     raycaster.ray.origin.y -= 10;
+    scene.add(stuff.gun);
+    
+    //Set raycaster position to controls position ray casting detection;
+    raycaster.ray.origin.copy( controls.getObject().position );
+    raycaster.ray.origin.y -= 10;
 
 
     var dt = clock.getDelta();
