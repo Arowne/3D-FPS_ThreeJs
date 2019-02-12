@@ -13,23 +13,23 @@
 function generateMap(){
 
     const map = [
-        [0,0,0,0,0,0,1,1,0,0,0,0,0,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,1,1,1,1,1,1,1,1,1,1,1,1,0],
-        [0,0,0,0,0,0,1,1,0,0,0,0,0,0]
+        [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,1,0,0,1,0,0,0,0,0,1,0,0,1,0],
+        [0,0,0,1,1,1,1,1,1,1,1,1,0,1,0],
+        [0,1,0,1,0,0,0,1,0,0,0,1,0,1,0],
+        [0,1,0,1,0,1,1,1,1,1,0,1,0,1,0],
+        [0,1,0,1,0,1,1,1,1,1,0,1,0,1,0],
+        [0,1,0,1,0,1,1,1,1,1,0,1,0,1,0],
+        [0,1,0,1,0,1,1,6,1,1,0,1,0,1,0],
+        [0,1,0,1,0,1,1,1,1,1,0,1,0,1,0],
+        [0,1,0,1,0,1,3,1,3,1,0,1,0,1,0],
+        [0,1,0,1,0,1,1,1,1,1,0,1,0,1,0],
+        [0,1,0,1,0,0,0,1,0,0,0,1,0,1,0],
+        [0,0,0,1,1,1,1,1,1,1,1,1,0,1,0],
+        [0,1,0,0,1,0,0,0,0,0,1,0,0,1,0],
+        [0,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+        [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]
     ];
 
     for(let i = 0; i < map.length ; i++){
@@ -37,8 +37,8 @@ function generateMap(){
 
         for( let j = 0; j < map[i].length; j++){
 
-            let xDistance = 50;
-            let zDistance = 50;
+            let xDistance = 30;
+            let zDistance = 30;
 
             //initial offset so does not start in middle.
             let xOffset = -80;
@@ -48,19 +48,21 @@ function generateMap(){
 
                     var geometry = new THREE.BoxGeometry(30,100,30);
 
-                    const textureLoader = new THREE.TextureLoader();
-                    const map = textureLoader.load('/assets/building_obj/wood2.jpg');
-                    var material = new THREE.MeshPhongMaterial({map:map});
-
-
+                    var textureLoader = new THREE.TextureLoader();
+                    var crateTexture = textureLoader.load('/assets/texture/pdtextures/461223105.jpg');
+                    var material = new THREE.MeshPhongMaterial(
+                        {
+                            color:0xffffff,
+                             map: crateTexture,
+                        }
+                        );
 
                     var mesh  = new THREE.Mesh(geometry, material);
                     mesh.position.x = (xDistance * i);
-                  //  mesh.position.y = (yDistance * i);
+                    //  mesh.position.y = (yDistance * i);
                     mesh.position.z = (zDistance * j);
 
                     scene.add(mesh);
-
 
                     break;
 
@@ -95,9 +97,9 @@ function generateMap(){
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('HDU_lowRez.obj', function (object) {
                         
-                                    object.position.x -= -75 + i*50;
-                                    object.position.y -= 100;
-                                    object.position.z -= 100;
+                                    object.position.x = (xDistance * i);
+
+                                    object.position.z = (zDistance * j);
 
                                     const textureLoader = new THREE.TextureLoader();
                                     const map = textureLoader.load('/assets/building_obj/HDU_01.jpg');
@@ -109,14 +111,14 @@ function generateMap(){
                                         }
                                     });
 
-                                    var geometry = new THREE.BoxGeometry( 160, 100, 100 );
+                                    var geometry = new THREE.BoxGeometry( 80, 100, 50 );
                                     var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
                                     var cube = new THREE.Mesh( geometry, material2 );
 
 
-                                    cube.position.y = object.position.y
-                                    cube.position.x = object.position.x
-                                    cube.position.z = object.position.z
+                                    cube.position.y = object.position.y;
+                                    cube.position.x = object.position.x;
+                                    cube.position.z = object.position.z;
 
                                     objects.push( cube );
                                     scene.add( cube );
@@ -127,7 +129,6 @@ function generateMap(){
                                 });
 
                         });
-
 
                         // Load 3d gun object
                         TextureLoader.setTexturePath('/assets/building_obj/');
@@ -162,8 +163,6 @@ function generateMap(){
 
                         });
 
-
-
                     break;
 
                     case 6:
@@ -182,9 +181,10 @@ function generateMap(){
                                 objLoader.setMaterials(materials);
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('lander.obj', function (object) {
-                        
-                                    object.position.x -= -75 + i*50;
-                                    object.position.z -= 100;
+
+                                    object.position.x = (xDistance * i);
+                                    object.position.y = 0;
+                                    object.position.z = (zDistance * j);
                                     
                                     object.scale.set(1, 1, 1);
 
@@ -193,9 +193,9 @@ function generateMap(){
                                     var cube = new THREE.Mesh( geometry, material2 );
 
 
-                                    cube.position.y = object.position.y
-                                    cube.position.x = object.position.x
-                                    cube.position.z = object.position.z
+                                    cube.position.y = object.position.y;
+                                    cube.position.x = object.position.x;
+                                    cube.position.z = object.position.z;
 
                                     objects.push( cube );
                                     scene.add( cube );
@@ -235,9 +235,9 @@ function generateMap(){
                                     var cube = new THREE.Mesh( geometry, material2 );
 
 
-                                    cube.position.y = object.position.y
-                                    cube.position.x = object.position.x
-                                    cube.position.z = object.position.z
+                                    cube.position.y = object.position.y;
+                                    cube.position.x = object.position.x;
+                                    cube.position.z = object.position.z;
 
                                     objects.push( cube );
                                     scene.add( cube );
@@ -275,9 +275,9 @@ function generateMap(){
                                     }
                                 });
 
-                                cube.position.y = object.position.y
-                                cube.position.x = object.position.x
-                                cube.position.z = object.position.z
+                                cube.position.y = object.position.y;
+                                cube.position.x = object.position.x;
+                                cube.position.z = object.position.z;
 
                                 objects.push( cube );
                                 scene.add( cube );
