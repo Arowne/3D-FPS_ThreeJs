@@ -126,6 +126,9 @@ var pnjDirection = {
     // Initialize
     $(document).ready(buildTimelines);
 
+    var audio = new Audio('assets/music/graveyard-shift-by-kevin-macleod.mp3');
+    audio.play();
+
     $('#blocker').hide();
     $('#selector-container').hide();
     $('#command').hide();
@@ -144,18 +147,22 @@ var pnjDirection = {
     });
 
     menu.on('click', SELECTOR_BUTTON_NEWGAME, function(event) {
-        console.log('hahaha');
+       // console.log('hahaha');
         event.preventDefault();
       //  reverseIntroButtons();
         $('.game').hide(400, function() {
+
 
             $('.game').css('width', 0);
             $('#title').hide();
             $('#blocker').show();
             $('#selector-container').show();
             $('#game-board').show();
+
             init();
             animate();
+            audio.pause();
+
         });
 
 
@@ -355,7 +362,7 @@ function init() {
     var floorMaterial = new THREE.MeshBasicMaterial( { color: 'red', wireframe: true} );
     var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 
-    scene.add( floor );
+  //  scene.add( floor );
 
     
     renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -375,7 +382,7 @@ function init() {
     setGunChoice();
     
     //#Decommente ça si tu es un homme
-    // solLunaire();
+     solLunaire();
 
 }
 
