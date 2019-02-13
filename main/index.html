@@ -68,9 +68,19 @@
 
 				}
 
+				.viseur{
+
+					position: absolute;
+					top: 50%;					
+					left: 50%;		
+					transform: translate(-50%, -50%);
+					font-size: 10px;		
+					color: #ffffff;
+				}
+
 			</style>
 
-		   		  
+			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	</head>
 	<body>
 		
@@ -88,18 +98,22 @@
 		<div id="selector-container">
 
 			<div id="counter-container">
-				<span style="font-size:40px" id="counter"></span>
+				<span id="counter"></span>
 			</div>
 		
 		</div>
-
+		<div class="viseur">
+			<i class="fas fa-crosshairs"></i>
+		</div>
 		<script src="/assets/three.js"></script>
+		<script src="/assets/LoaderSupport.js"></script>
 		<script src="/assets/PointerLockControls.js"></script>
 		<script src="/assets/OBJLoader.js"></script>
 		<script src="/assets/MTLLoader.js"></script>
 		<script src="/assets/STLLoader.js"></script>
 		<script src="/assets/GLTFLoader.js"></script>
 		<script src="/assets/setGunChoice.js"></script>
+		<script src="/assets/weaponSetting.js"></script>
 		<script src="/assets/initChoice.js"></script>
 		<script src="/assets/map.js"></script>
 		<script src="/assets/scripts.js"></script>
