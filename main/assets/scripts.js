@@ -53,8 +53,144 @@ var pnjDirection = {
     
 };
 
-init();
-animate();
+
+// BoardMenu
+
+
+(function() {
+    var SELECTOR_REPLAY_INTRO_BUTTONS = '#button-replay';
+    var SELECTOR_BUTTON_NEWGAME = '.button-play';
+    var SELECTOR_BUTTON_HOW_TO_PLAY = '.button-command';
+    var SELECTOR_BUTTON_GAME_MENU = '.button-game-menu';
+    var menu = $('.game');
+
+    var timelineIntroScreen;
+
+    function buildTimelines() {
+        timelineIntroScreen = new TimelineMax({
+            paused: false
+        });
+
+        timelineIntroScreen.staggerFrom('.screen-intro .button', 2, {
+            css: {
+                scale: 0
+            },
+            autoAlpha: 0,
+            ease: Elastic.easeOut
+        }, .1);
+    }
+
+    function playIntroButtons() {
+        timelineIntroScreen.restart();
+    }
+
+    function reverseIntroButtons() {
+        timelineIntroScreen.reverse();
+    }
+
+    function fadeToScreen(targetScreenClassName) {
+        var _nameScreen;
+
+        if (!targetScreenClassName) {
+            _nameScreen = 'screen-intro';
+        }
+
+        _nameScreen = targetScreenClassName;
+
+        var $elementTarget = $('.' + _nameScreen);
+        var $elementActiveScreen = $('.active-screen');
+
+        console.log('$elementTarget: ', $elementTarget);
+        console.log('targetScreenClassName: ', targetScreenClassName);
+        console.log('$elementActiveScreen: ', $elementActiveScreen);
+
+        return TweenMax.to($elementActiveScreen, .4, {
+            autoAlpha: 0,
+            y: '+=10',
+            onComplete: function() {
+                console.log('onComplete: ', $elementTarget);
+
+                $elementActiveScreen.removeClass('active-screen');
+
+                TweenMax
+                    .to($elementTarget, .4, {
+                        y: '-=10',
+                        autoAlpha: 1,
+                        className: '+=active-screen'
+                    });
+            }
+        });
+
+    }
+
+    // Initialize
+    $(document).ready(buildTimelines);
+
+    $('#blocker').hide();
+    $('#selector-container').hide();
+    $('#command').hide();
+
+    // Bindings
+    $(document).on('click', SELECTOR_REPLAY_INTRO_BUTTONS, function(event) {
+        event.preventDefault();
+
+        if (!$('.screen-intro').hasClass('active-screen')) {
+            return;
+        }
+
+        playIntroButtons();
+    });
+
+    menu.on('click', SELECTOR_BUTTON_NEWGAME, function(event) {
+        console.log('hahaha');
+        event.preventDefault();
+      //  reverseIntroButtons();
+        $('.game').hide(400, function() {
+
+            $('.game').css('width', 0);
+            $('#title').hide();
+            $('#blocker').show();
+            $('#selector-container').show();
+            init();
+            animate();
+        });
+
+
+
+        timelineIntroScreen.eventCallback('onReverseComplete', function() {
+           // fadeToScreen('screen-game');
+
+        });
+    });
+
+    menu.on('click', SELECTOR_BUTTON_HOW_TO_PLAY, function(event) {
+        event.preventDefault();
+
+        $('#main').hide(400, function() {
+
+            $('#block-menu').css('display', 'flex');
+            $('#title').hide();
+            $('#command').show();
+
+
+        });
+    });
+
+    menu.on('click', SELECTOR_BUTTON_GAME_MENU, function(event) {
+        event.preventDefault();
+
+        $('#command').hide(400, function() {
+
+            $('#main').show();
+            $('#title').show();
+
+        });
+    });
+
+})();
+
+
+//
 
 
 // Set floor texture
