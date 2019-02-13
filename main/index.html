@@ -60,6 +60,15 @@
 					background-color: rgba(0,0,0,0.5);
 
 				}
+
+				#menu-container {
+					z-index: 10000000000;
+					position: absolute;
+					width: 100%;
+					height: 100%;
+					background-color: rgba(0,0,0,0.5);
+
+				}
 				#counter-container {
 
 					width: 100%;
@@ -177,6 +186,44 @@
 				margin-top: 75px;
 			}
 
+			.game-board {
+				display: flex;
+				bottom: 10px;
+				position: absolute;
+				left: 10px;
+			}
+
+			.life {
+				width: 100px;
+				background-color: antiquewhite;
+				height: 100px;
+				opacity: 0.5;
+				border: 2px solid darkslategray;
+				margin-right: 10px;
+			}
+
+			.grenade {
+				width: 100px;
+				height: 100px;
+			}
+
+			.bullet {
+				width: 100px;
+				height: 100px;
+			}
+
+			#grenade {
+				position: absolute;
+				bottom: 0px;
+				margin-right: 15px;
+			}
+
+			#bullet {
+				position: absolute;
+				bottom: 0px;
+				margin-right: 15px;
+			}
+
 			</style>
 
 		   		  
@@ -241,7 +288,6 @@
 
 			<div id="instructions">
 
-
 			</div>
 
 		</div>
@@ -251,11 +297,32 @@
 		<div id="selector-container">
 
 			<div id="counter-container">
+
 				<span style="font-size:40px" id="counter"></span>
 			</div>
 
 		</div>
-		
+		<div id="menu-container">
+			<h1 class="title" id="title">FPS GAMING</h1>
+			<section class="screen screen-intro active-screen" id="main">
+				<div class="button button-play">Play</div>
+				<div class="button button-command">How to play</div>
+				<!--	<button class="button button-sound">Sound</button>
+                    <button class="button button-settings">Settings</button>
+                    <button class="button button-credits">Credits</button> -->
+			</section>
+		</div>
+		<div class="game-board" id="game-board">
+			<div class="life" id="life">
+			</div>
+			<div class="grenade">
+				<img  id="grenade" src="assets/img/grenade.png" alt="grenade">
+			</div>
+			<div class="bullet">
+				<img  id="bullet" src="assets/img/bullet.png" alt="grenade">
+			</div>
+		</div>
+
 
 
 		<script src="/assets/three.js"></script>

@@ -129,6 +129,8 @@ var pnjDirection = {
     $('#blocker').hide();
     $('#selector-container').hide();
     $('#command').hide();
+    $('#menu-container').hide();
+    $('#game-board').hide();
 
     // Bindings
     $(document).on('click', SELECTOR_REPLAY_INTRO_BUTTONS, function(event) {
@@ -151,6 +153,7 @@ var pnjDirection = {
             $('#title').hide();
             $('#blocker').show();
             $('#selector-container').show();
+            $('#game-board').show();
             init();
             animate();
         });
@@ -262,6 +265,8 @@ function init() {
 
         blocker.style.display = 'none';
         counterContainer.innerHTML = "";
+
+
 
     } );
 
@@ -405,7 +410,7 @@ function animatePNJ( model, animations ) {
 
     }
 
-    activeAction = actions['Walking'];
+    activeAction = actions['Idle'];
     
     activeAction.play();
     
