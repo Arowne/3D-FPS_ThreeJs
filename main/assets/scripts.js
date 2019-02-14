@@ -37,9 +37,10 @@ var counterContainer = document.getElementById( 'counter-container' );
 
 var stuff = {
     gun: '',
-    grenade: '',
+    granades: 3,
+    bullet: 150,
     life: 50,
-    speed: ''
+    experience: 0
 };
 
 var game = {
