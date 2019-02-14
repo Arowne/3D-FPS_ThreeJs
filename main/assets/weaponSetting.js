@@ -5,6 +5,7 @@ function shoot(){
         if( stuff.bullet > 0) {
 
             stuff.bullet -= 1;
+            document.getElementById('pbullet').innerHTML = stuff.bullet;
             createBullet();
 
         }

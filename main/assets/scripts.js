@@ -161,7 +161,7 @@ var pnjDirection = {
             $('#selector-container').show();
             $('#game-board').show();
             $('.life').append('<p style="color:#001229; font-size: 25px; position: absolute; margin: 0;">' + stuff['life'] + '</p>');
-            $('.bullet').append('<p>' + stuff['bullet'] + '</p>');
+            document.getElementById('pbullet').innerHTML = stuff.bullet;
             $('.grenade').append('<p>' + stuff['granades'] + '</p>');
 
             init();
