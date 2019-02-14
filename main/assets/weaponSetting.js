@@ -4,16 +4,10 @@ function shoot(){
          
         if( stuff.bullet > 0) {
 
-            stuff.buller -= 1;
+            stuff.bullet -= 1;
             createBullet();
 
         }
-        else{
-
-            console.log('no more bullet');
-
-        }
-
 
     });
 
