@@ -1,4 +1,5 @@
 function shoot(){
+
     const bulletContainer = document.getElementById('pbullet');
     document.addEventListener('click', function(){
          
@@ -40,7 +41,7 @@ function createBullet(){
         bullet.alive = true;
         scene.remove( bullet );
 
-    },1000);
+    },5000);
 
     bullets.push(bullet);
     scene.add( bullet );

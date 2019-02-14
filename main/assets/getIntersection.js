@@ -56,6 +56,7 @@ function getObjcetIntersect(intersections, objects, selectorContainer, counterCo
                             unsetGunChoice();
                             generateMap();
                             shoot();
+
                             // controls.getObject().position.set(
 
                             //     +800,

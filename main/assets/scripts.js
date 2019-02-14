@@ -22,10 +22,10 @@ var modelGTLF;
 var rays = [
     new THREE.Vector3(0, 0, 1),
     new THREE.Vector3(1, 0, 1),
+    new THREE.Vector3(1, 0, 0),
     new THREE.Vector3(1, 0, -1),
     new THREE.Vector3(0, 0, -1),
     new THREE.Vector3(-1, 0, -1),
-    new THREE.Vector3(1, 0, 0),
     new THREE.Vector3(-1, 0, 0),
     new THREE.Vector3(-1, 0, 1)
 ];
@@ -52,7 +52,7 @@ var game = {
 
 var pnjDirection = {
 
-    direction: 1
+    direction: 10
     
 };
 
@@ -65,6 +65,19 @@ var vaisseau = {
     cube: null,
     a: 0,
 
+};
+
+var box = {
+
+    potionBoxUiid: null,
+    potionBoxObject: null,
+    potionBoxBlocker: null,
+    potionBoxMoove: false,
+    blockBoxUiid: null,
+    blockBoxObject: null,
+    blockBoxBlocker: null,
+    blockBoxMoove: false,
+    moovement: 0
 };
 
 // BoardMenu
@@ -158,7 +171,6 @@ var vaisseau = {
     });
 
     menu.on('click', SELECTOR_BUTTON_NEWGAME, function(event) {
-       // console.log('hahaha');
         event.preventDefault();
       //  reverseIntroButtons();
         $('.game').hide(400, function() {
@@ -455,13 +467,55 @@ function animatePNJ( model, animations, animationName ) {
 
 function animate() {
 
-
     requestAnimationFrame( animate );
 
-    if(vaisseau.fly){
+    if( box.potionBoxMoove === true ){
+
+        
+        box.moovement += 1;
+
+        if( box.moovement <= 20){
+
+            
+            for (let index = 0; index < 10; index++) {
+                
+                box.potionBoxObject.position.sub(
+                    new THREE.Vector3(
+                        Math.sin(controls.getObject().rotation.y),
+                        0,
+                        Math.cos(controls.getObject().rotation.y),
+                    )
+                )
+
+                box.potionBoxBlocker.position.sub(
+                    new THREE.Vector3(
+                        Math.sin(controls.getObject().rotation.y),
+                        0,
+                        Math.cos(controls.getObject().rotation.y),
+                    )
+                )
+                
+            }
+
+            
+            scene.remove(box.potionBoxObject);
+            scene.add(box.potionBoxObject);
+
+        }
+        else{
+
+            box.potionBoxMoove = false;
+            box.moovement = false;
+
+        }
+
+    }
 
 
-        if(vaisseau.object.position.y >= 50 ) {
+    if( vaisseau.fly ){
+
+
+        if( vaisseau.object.position.y >= 50 ) {
 
             vaisseau.a += 10;
             vaisseau.object.position.y += 10;
@@ -485,7 +539,7 @@ function animate() {
 
     }
 
-    if(model){
+    if( model ){
 
         model.position.z += pnjDirection.direction;
         
@@ -498,8 +552,12 @@ function animate() {
                 bullets[j].splice(j, 1);
     
             }
-    
-            bullets[j].position = bullets[j].position.sub(bullets[j].velocity);
+            
+            for (let index = 0; index < 100; index++) {
+
+                bullets[j].position = bullets[j].position.sub(bullets[j].velocity);  
+                
+            }
 
             modelBB = new THREE.Box3().setFromObject(model);
             currentBulletBB = new THREE.Box3().setFromObject(bullets[j]);
@@ -540,7 +598,7 @@ function animate() {
 
     }
 
-    if(stuff.gun){
+    if( stuff.gun ){
 
         stuff.gun.position.y = controls.getObject().position.y;
         stuff.gun.position.x = controls.getObject().position.x;
@@ -553,6 +611,8 @@ function animate() {
             controls.getObject().rotation.z
 
         )
+        
+        // camera.add( stuff.gun );
 
         scene.add(stuff.gun);
 
@@ -562,7 +622,7 @@ function animate() {
     //Set raycaster position to controls position ray casting detection;
     raycaster.ray.origin.copy( controls.getObject().position );
     raycaster.ray.origin.y -= 10;
-
+    raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3(), 0, 10);
 
     var dt = clock.getDelta();
     if ( mixer ) mixer.update( dt );
@@ -648,6 +708,13 @@ function animate() {
 
                 vaisseau.fly = true;
                 
+            }
+
+
+            if(  box.potionBoxUiid === intersections[0].object.uuid ) {
+
+                box.potionBoxMoove = true
+
             }
 
          }

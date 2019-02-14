@@ -20,7 +20,7 @@ function generateMap(){
         [0,0,0,1,7,1,1,0,0,0],
         [0,0,0,1,5,1,1,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,8,0,0,0],
         [0,0,0,0,6,0,0,0,0,0],
         [3,0,0,0,0,0,0,0,0,3]
     ];
@@ -210,6 +210,25 @@ function generateMap(){
                 
                     break;
 
+                    case 6: 
+                            
+                    // personage
+                    var loader = new THREE.GLTFLoader();
+                    loader.load( '/assets/models/gltf/RobotExpressive/RobotExpressive.glb', function( gltf ) {
+                        
+                        model = gltf.scene;
+                        gltf.scene.scale.set(30, 30, 30);
+                        model.position.z -= 1000;
+                        model.position.y -= 100;
+                        model.position.x += 500;
+                        modelGTLF = gltf;
+                        scene.add( model );
+                        animatePNJ( model, gltf.animations, 'Walking' );
+                        
+                    }, undefined, function( e ) {
+                        console.error( e );
+                    } );
+
                     case 7:
 
                         const objLoad = new THREE.OBJLoader();
@@ -251,24 +270,51 @@ function generateMap(){
 
                     break;
 
-                    case 6: 
+                    case 8:
+
+                        for (let index = 0; index <= 1; index++) {
                             
-                            // personage
-                            var loader = new THREE.GLTFLoader();
-                            loader.load( '/assets/models/gltf/RobotExpressive/RobotExpressive.glb', function( gltf ) {
+                            let objLoad2 = new THREE.OBJLoader();
+
+                            objLoad2.setPath('/assets/building_obj/');
+                            objLoad2.load('cubsat.obj', function (object) {
+
+                                object.position.y -= 70;
+
+                                if(index == 1){
+
+                                    object.position.z -= 1200;
+                                    object.position.x += 900;
+
+                                }
                                 
-                                model = gltf.scene;
-                                gltf.scene.scale.set(30, 30, 30);
-                                model.position.z -= 1000;
-                                model.position.y -= 100;
-                                model.position.x += 500;
-                                modelGTLF = gltf;
-                                scene.add( model );
-                                animatePNJ( model, gltf.animations, 'Walking' );
+                                object.scale.set(50, 15, 50);
+
+                                var geometry = new THREE.BoxGeometry( 300, 300, 300 );
+                                var material5 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
+                                var cube5 = new THREE.Mesh( geometry, material5 );
+
+
+                                cube5.position.y = object.position.y;
+                                cube5.position.x = object.position.x;
+                                cube5.position.z = object.position.z;
+
+                                objects.push( cube5 );
+                                scene.add( cube5 );
                                 
-                            }, undefined, function( e ) {
-                                console.error( e );
-                            } );
+                                scene.add( object );
+
+                                index == 1 ? box.potionBoxUiid = cube5.uuid : box.blockBoxUiid = cube5.uuid
+                                index == 1 ? box.potionBoxObject = object : box.blockBoxObject = object
+                                index == 1 ? box.potionBoxBlocker = cube5 : box.blockBoxObject = cube5
+
+                            });
+                            
+
+                        }
+
+
+                    break;
                         
                 default:
                     break;
@@ -279,7 +325,6 @@ function generateMap(){
 
 
     }
-
 
 }
 
