@@ -17,7 +17,7 @@ function generateMap(){
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,1,1,1,1,0,0,0],
-        [0,0,0,1,1,1,1,0,0,0],
+        [0,0,0,1,7,1,1,0,0,0],
         [0,0,0,1,5,1,1,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -63,7 +63,7 @@ function generateMap(){
                                     });
 
                                     var geometry = new THREE.BoxGeometry( 560, 500, 300 );
-                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:false, opacity: 0} );
+                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
                                     var cube = new THREE.Mesh( geometry, material2 );
 
 
@@ -136,7 +136,7 @@ function generateMap(){
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('futuristic spacecraft_obj.obj', function (object) {
                         
-                                    object.position.x = 75 + i*50;
+                                    object.position.x = 100 + i*50;
                                     object.position.z = 100 + j*50;
                                     object.position.y -= 50;
                                     
@@ -169,7 +169,8 @@ function generateMap(){
                             objLoader.setPath('/assets/building_obj/');
                             objLoader.load('Observatory.obj', function (object) {
                     
-                                object.position.x += 100;
+                                object.position.x -= 150 + i*100;
+                                object.position.z -= 500 + j*50;
                                 object.position.y = 0;
                                 
                                 
@@ -201,6 +202,9 @@ function generateMap(){
                             });
                 
                     break;
+
+                case 7:
+
 
                     case 6: 
                             
