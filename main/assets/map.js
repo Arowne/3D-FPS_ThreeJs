@@ -48,14 +48,8 @@ function generateMap(){
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('HDU_lowRez.obj', function (object) {
                         
-<<<<<<< HEAD
                                     object.position.x = 75 + i*50;
                                     object.position.z = 100;
-=======
-                                    object.position.x -= -75 + i*50;
-                                    object.position.z -= 100;
-                                    object.position.y -= 100;
->>>>>>> aaron
 
                                     const textureLoader = new THREE.TextureLoader();
                                     const map = textureLoader.load('/assets/building_obj/HDU_01.jpg');
@@ -100,14 +94,8 @@ function generateMap(){
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('HDU_lowRez_part2.obj', function (object) {
                         
-<<<<<<< HEAD
                                     object.position.x = 75 + i*50;
                                     object.position.z = 100;
-=======
-                                    object.position.x -= -75 + i*50;
-                                    object.position.z -= 100;
-                                    object.position.y -= 100;
->>>>>>> aaron
 
                                     const textureLoader = new THREE.TextureLoader();
                                     const map = textureLoader.load('/assets/building_obj/HDU_02.jpg');

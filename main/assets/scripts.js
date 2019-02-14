@@ -377,7 +377,7 @@ function init() {
     // var floorMaterial = new THREE.MeshBasicMaterial( { color: 'red', wireframe: true} );
     // var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 
-    scene.add( floor );
+    // scene.add( floor );
 
     
     renderer = new THREE.WebGLRenderer( { antialias: true } );
