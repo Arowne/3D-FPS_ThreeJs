@@ -58,9 +58,9 @@ function getObjcetIntersect(intersections, objects, selectorContainer, counterCo
                             shoot();
                             controls.getObject().position.set(
 
-                                -500,
+                                +800,
                                 0,
-                                -500
+                                +1000
 
                             )
                         }
@@ -73,12 +73,6 @@ function getObjcetIntersect(intersections, objects, selectorContainer, counterCo
 
         }
 
-        if( vaisseau.uuid === intersections[0].object.uuid ){
-
-            vaisseau.fly = true;
-            
-        }
-        
     }
 
 }

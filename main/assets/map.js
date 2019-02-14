@@ -52,6 +52,8 @@ function generateMap(){
                                     object.position.y -= 100;
                                     object.position.z = 20 + j*100;
 
+                                    
+
                                     const textureLoader = new THREE.TextureLoader();
                                     const map = textureLoader.load('/assets/building_obj/HDU_01.jpg');
                                     const material = new THREE.MeshPhongMaterial({map: map});
