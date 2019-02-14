@@ -16,6 +16,7 @@ var direction = new THREE.Vector3();
 var vertex = new THREE.Vector3();
 var color = new THREE.Color();
 var weaponChoice = "gun";
+var modelGTLF;
 
 
 var rays = [
@@ -411,7 +412,7 @@ function onWindowResize() {
     
 }
 
-function animatePNJ( model, animations ) {
+function animatePNJ( model, animations, animationName ) {
 
     var states = [ 'Idle', 'Walking', 'Running', 'Dance', 'Death', 'Sitting', 'Standing' ];
     
@@ -433,7 +434,7 @@ function animatePNJ( model, animations ) {
 
     }
 
-    activeAction = actions['Walking'];
+    activeAction = actions[animationName];
     
     activeAction.play();
     
@@ -445,25 +446,45 @@ function animate() {
 
     requestAnimationFrame( animate );
 
-    for (let index = 0; index < bullets.length; index++) {
-
-        if( bullets[index] === undefined ){ continue; }
-
-        if( bullets[index].alive === false ){
-
-            bullets[index].splice(index, 1);
-
-        }
-
-        bullets[index].position.sub(bullets[index].velocity);
-
-    }
-
 
     if(model){
 
         model.position.z += pnjDirection.direction;
         
+        for (let j = 0; j < bullets.length; j++) {
+
+            modelBB = new THREE.Box3().setFromObject(model);
+            currentBulletBB = new THREE.Box3().setFromObject(bullets[j]);
+
+            var bulletCollision = modelBB.intersectsBox(currentBulletBB);
+
+            if(bulletCollision){
+                
+                animatePNJ( model, modelGTLF.animations, 'Death' );
+
+                setTimeout(function(){
+                    scene.remove(model);
+                }, 800)
+
+            }
+
+        }
+
+        for (let index = 0; index < bullets.length; index++) {
+
+            if( bullets[index] === undefined ){ continue; }
+    
+            if( bullets[index].alive === false ){
+    
+                bullets[index].splice(index, 1);
+    
+            }
+    
+            bullets[index].position = bullets[index].position.sub(bullets[index].velocity);
+    
+        }
+    
+
         for (let i = 0; i < objects.length; i++) {
 
             const object = objects[i];
@@ -481,21 +502,6 @@ function animate() {
         }
 
 
-        for (let j = 0; j < bullets.length; j++) {
-
-            const currentBullet = bullets[j];
-            modelBB = new THREE.Box3().setFromObject(model);
-            currentBulletBB = new THREE.Box3().setFromObject(currentBullet);
-
-            var bulletCollision = modelBB.intersectsBox(currentBulletBB);
-
-            if(bulletCollision){
-
-                model = '';
-
-            }
-
-        }
 
     }
 

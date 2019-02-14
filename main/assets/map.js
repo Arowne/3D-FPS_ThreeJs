@@ -210,8 +210,9 @@ function generateMap(){
                                 gltf.scene.scale.set(30, 30, 30);
                                 model.position.z -= 1000;
                                 model.position.y -= 100;
+                                modelGTLF = gltf;
                                 scene.add( model );
-                                animatePNJ( model, gltf.animations );
+                                animatePNJ( model, gltf.animations, 'Walking' );
                                 
                             }, undefined, function( e ) {
                                 console.error( e );
