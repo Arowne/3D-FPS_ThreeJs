@@ -453,6 +453,16 @@ function animate() {
         
         for (let j = 0; j < bullets.length; j++) {
 
+            if( bullets[j] === undefined ){ continue; }
+    
+            if( bullets[j].alive === false ){
+    
+                bullets[j].splice(j, 1);
+    
+            }
+    
+            bullets[j].position = bullets[j].position.sub(bullets[j].velocity);
+
             modelBB = new THREE.Box3().setFromObject(model);
             currentBulletBB = new THREE.Box3().setFromObject(bullets[j]);
 
@@ -463,27 +473,14 @@ function animate() {
                 animatePNJ( model, modelGTLF.animations, 'Death' );
 
                 setTimeout(function(){
+
                     scene.remove(model);
+
                 }, 800)
 
             }
 
         }
-
-        for (let index = 0; index < bullets.length; index++) {
-
-            if( bullets[index] === undefined ){ continue; }
-    
-            if( bullets[index].alive === false ){
-    
-                bullets[index].splice(index, 1);
-    
-            }
-    
-            bullets[index].position = bullets[index].position.sub(bullets[index].velocity);
-    
-        }
-    
 
         for (let i = 0; i < objects.length; i++) {
 
