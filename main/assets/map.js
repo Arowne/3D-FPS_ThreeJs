@@ -63,7 +63,7 @@ function generateMap(){
                                     });
 
                                     var geometry = new THREE.BoxGeometry( 560, 500, 300 );
-                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:false, opacity: 0} );
+                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
                                     var cube = new THREE.Mesh( geometry, material2 );
 
 
@@ -143,7 +143,7 @@ function generateMap(){
                                     object.scale.set(25, 35, 25);
 
                                     var geometry = new THREE.BoxGeometry( 300, 200, 350 );
-                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0.5} );
+                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
                                     var cube = new THREE.Mesh( geometry, material2 );
 
                                     cube.position.y = object.position.y
@@ -154,7 +154,9 @@ function generateMap(){
                                     scene.add( cube );
                                     scene.add( object );
 
-                                    vaisseauUUID = cube.uuid;
+                                    vaisseau.uuid = cube.uuid;
+                                    vaisseau.object = object;
+                                    vaisseau.cube = cube;
                                     
                                 });
 

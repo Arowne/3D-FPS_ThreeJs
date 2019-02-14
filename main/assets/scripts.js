@@ -1,4 +1,4 @@
-var camera, scene, renderer, controls, clock, mixer, actions, activeAction, previousAction, model, vaisseauUUID ;
+var camera, scene, renderer, controls, clock, mixer, actions, activeAction, previousAction, model ;
 var objects = [];
 var guns = [];
 var granades = [];
@@ -59,7 +59,11 @@ var pnjDirection = {
 
 var vaisseau = {
 
-    fly: false
+    fly: false,
+    uuid: null,
+    object: null,
+    cube: null,
+    a: 0,
 
 };
 
@@ -454,7 +458,28 @@ function animate() {
 
     if(vaisseau.fly){
 
-        console.log('fly');
+
+        if(vaisseau.object.position.y >= 50 ) {
+
+            vaisseau.a += 10;
+            vaisseau.object.position.y += 10;
+            vaisseau.object.position.z += 159 + vaisseau.a;
+
+
+        }
+        else{
+
+            vaisseau.object.position.y += 7;
+
+        }
+
+
+        if(vaisseau.object.position.z >= 1500){
+
+            scene.remove(vaisseau.object);
+            scene.remove(vaisseau.cube);
+
+        }
 
     }
 
@@ -616,6 +641,12 @@ function animate() {
 
 
              }
+
+            if( vaisseau.uuid === intersections[0].object.uuid ){
+
+                vaisseau.fly = true;
+                
+            }
 
          }
 

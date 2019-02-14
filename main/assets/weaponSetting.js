@@ -1,15 +1,11 @@
 function shoot(){
-
+    const bulletContainer = document.getElementById('pbullet');
     document.addEventListener('click', function(){
          
         if( stuff.bullet > 0) {
 
             stuff.bullet -= 1;
-<<<<<<< HEAD
-            
-=======
-            document.getElementById('pbullet').innerHTML = stuff.bullet;
->>>>>>> 1870b93474fe438c5dbec94ad6d3f07522ed05d9
+            bulletContainer.innerHTML = stuff.bullet;
             createBullet();
 
         }
