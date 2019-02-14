@@ -62,8 +62,8 @@ function generateMap(){
                                         }
                                     });
 
-                                    var geometry = new THREE.BoxGeometry( 160, 100, 100 );
-                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
+                                    var geometry = new THREE.BoxGeometry( 560, 500, 300 );
+                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:false, opacity: 0} );
                                     var cube = new THREE.Mesh( geometry, material2 );
 
 
