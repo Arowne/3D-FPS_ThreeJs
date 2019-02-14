@@ -34,7 +34,7 @@ function getObjcetIntersect(intersections, objects, selectorContainer, counterCo
                     counter += 1;
                     counterContainer.innerHTML = counter;
                     
-                    if( counter === 1 ){
+                    if( counter >= 1 ){
 
                         
                         if( weaponChoice === 'gun' ) {
@@ -56,13 +56,13 @@ function getObjcetIntersect(intersections, objects, selectorContainer, counterCo
                             unsetGunChoice();
                             generateMap();
                             shoot();
-                            controls.getObject().position.set(
+                            // controls.getObject().position.set(
 
-                                +800,
-                                0,
-                                +1000
+                            //     +800,
+                            //     0,
+                            //     +1000
 
-                            )
+                            // )
                         }
                         
                     }

@@ -1,4 +1,6 @@
 function setGunChoice(){
+    
+    // Set limit
 
     // Set test indicator
     const textLoader = new THREE.FontLoader();
@@ -132,6 +134,9 @@ function unsetGunChoice(){
 
     for (let i = 0; i < guns.length; i++) {
         
+        console.log(guns.length);
+
+
         if(guns[i]){
 
             scene.remove(guns[i]);

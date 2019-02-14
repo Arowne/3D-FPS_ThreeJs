@@ -529,8 +529,8 @@ function animate() {
             var collision = firstBB.intersectsBox(secondBB);
 
             if(collision){
-
-                pnjDirection.direction = -10;
+                
+                pnjDirection.direction > 0 ? pnjDirection.direction = -10 : pnjDirection.direction = +10;
                 model.rotation.y += 3.14159;
                 
             }

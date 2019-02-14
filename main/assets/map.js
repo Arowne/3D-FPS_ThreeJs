@@ -24,6 +24,9 @@ function generateMap(){
         [0,0,0,0,6,0,0,0,0,0],
         [3,0,0,0,0,0,0,0,0,3]
     ];
+    // 
+
+    setLimit();
 
     for(let i = 0; i < map.length ; i++){
 
@@ -64,19 +67,19 @@ function generateMap(){
                                         }
                                     });
 
-                                    var geometry = new THREE.BoxGeometry( 560, 500, 300 );
-                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
-                                    var cube = new THREE.Mesh( geometry, material2 );
+                                    var geometry = new THREE.BoxGeometry( 700, 500, 400 );
+                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0.5} );
+                                    var cube1 = new THREE.Mesh( geometry, material2 );
 
 
-                                    cube.position.y = object.position.y
-                                    cube.position.x = object.position.x
-                                    cube.position.z = object.position.z
+                                    cube1.position.y = object.position.y
+                                    cube1.position.x = object.position.x
+                                    cube1.position.z = object.position.z
 
-                                    objects.push( cube );
-                                    scene.add( cube );
+                                    objects.push( cube1 );
+                                    scene.add( cube1 );
                                     
-                                    object.scale.set(0.4, 0.4, 0.4);
+                                    object.scale.set(0.6, 0.6, 0.6);
                                     scene.add( object );
                         
                                 });
@@ -111,7 +114,7 @@ function generateMap(){
                                         }
                                     });
                                     
-                                    object.scale.set(0.4, 0.4, 0.4);
+                                    object.scale.set(0.5, 0.4, 0.4);
                                     scene.add( object );
 
                                 });
@@ -146,19 +149,19 @@ function generateMap(){
 
                                     var geometry = new THREE.BoxGeometry( 300, 200, 350 );
                                     var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
-                                    var cube = new THREE.Mesh( geometry, material2 );
+                                    var cube2 = new THREE.Mesh( geometry, material2 );
 
-                                    cube.position.y = object.position.y
-                                    cube.position.x = object.position.x
-                                    cube.position.z = object.position.z
+                                    cube2.position.y = object.position.y
+                                    cube2.position.x = object.position.x
+                                    cube2.position.z = object.position.z
 
-                                    objects.push( cube );
-                                    scene.add( cube );
+                                    objects.push( cube2 );
+                                    scene.add( cube2 );
                                     scene.add( object );
 
-                                    vaisseau.uuid = cube.uuid;
+                                    vaisseau.uuid = cube2.uuid;
                                     vaisseau.object = object;
-                                    vaisseau.cube = cube;
+                                    vaisseau.cube = cube2;
                                     
                                 });
 
@@ -182,7 +185,7 @@ function generateMap(){
 
                                 var geometry = new THREE.BoxGeometry( 1000, 1000, 1000 );
                                 var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
-                                var cube = new THREE.Mesh( geometry, material2 );
+                                var cube3 = new THREE.Mesh( geometry, material2 );
 
                                 const textureLoader = new THREE.TextureLoader();
                                 const map = textureLoader.load('/assets/building_obj/Observatory.jpg');
@@ -194,12 +197,12 @@ function generateMap(){
                                     }
                                 });
 
-                                cube.position.y = object.position.y;
-                                cube.position.x = object.position.x;
-                                cube.position.z = object.position.z;
+                                cube3.position.y = object.position.y;
+                                cube3.position.x = object.position.x;
+                                cube3.position.z = object.position.z;
 
-                                objects.push( cube );
-                                scene.add( cube );
+                                objects.push( cube3 );
+                                scene.add( cube3 );
 
                                 scene.add( object );
 
@@ -223,7 +226,7 @@ function generateMap(){
 
                             var geometry = new THREE.BoxGeometry( 1000, 1000, 1000 );
                             var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
-                            var cube = new THREE.Mesh( geometry, material2 );
+                            var cube4 = new THREE.Mesh( geometry, material2 );
 
                             const textureLoader = new THREE.TextureLoader();
                             const map = textureLoader.load('/assets/moon-floor/martian.png');
@@ -235,12 +238,12 @@ function generateMap(){
                                 }
                             });
 
-                            cube.position.y = object.position.y;
-                            cube.position.x = object.position.x;
-                            cube.position.z = object.position.z;
+                            cube4.position.y = object.position.y;
+                            cube4.position.x = object.position.x;
+                            cube4.position.z = object.position.z;
 
-                            objects.push( cube );
-                            scene.add( cube );
+                            objects.push( cube4 );
+                            scene.add( cube4 );
 
                             scene.add( object );
 
@@ -258,6 +261,7 @@ function generateMap(){
                                 gltf.scene.scale.set(30, 30, 30);
                                 model.position.z -= 1000;
                                 model.position.y -= 100;
+                                model.position.x += 500;
                                 modelGTLF = gltf;
                                 scene.add( model );
                                 animatePNJ( model, gltf.animations, 'Walking' );
@@ -276,5 +280,44 @@ function generateMap(){
 
     }
 
+
+}
+
+function setLimit(){
+
+    for (let i = 0; i <= 3; i++){
+
+        var geometry = new THREE.PlaneGeometry( 3000, 1000);
+        var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide, transparent:true, opacity: 0.2} );
+        var plane = new THREE.Mesh( geometry, material );
+        
+        switch (i) {
+
+            case 0:
+                plane.position.set(0,0,-1500);
+            break;
+
+            case 1:
+                plane.position.set(0,0,1500);
+            break;
+
+            case 2:
+                plane.position.set(1500,0,0);
+                plane.rotation.y = 90 * Math.PI / 180;
+            break;
+
+            case 3:
+                plane.position.set(-1500,0,0);
+                plane.rotation.y =  90 * Math.PI / 180;
+            break;
+
+            default:
+                break;
+        }
+    
+        objects.push( plane );
+        scene.add( plane );
+
+    }
 
 }
