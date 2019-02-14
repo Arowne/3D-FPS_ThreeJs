@@ -160,9 +160,9 @@ var pnjDirection = {
             $('#blocker').show();
             $('#selector-container').show();
             $('#game-board').show();
-            $('.life').append('<p style="color:#001229; font-size: 25px; position: absolute; margin: 0;">' + stuff['life'] + '</p>');
+            $('.life').append('<p class="life" style="color:#001229; font-size: 25px; position: absolute; margin: 0;">' + stuff['life'] + '</p>');
             document.getElementById('pbullet').innerHTML = stuff.bullet;
-            $('.grenade').append('<p>' + stuff['granades'] + '</p>');
+            $('.grenade').append('<p class="grenade">' + stuff['granades'] + '</p>');
 
             init();
             animate();
