@@ -48,8 +48,14 @@ function generateMap(){
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('HDU_lowRez.obj', function (object) {
                         
+<<<<<<< HEAD
                                     object.position.x = 75 + i*50;
                                     object.position.z = 100;
+=======
+                                    object.position.x -= -75 + i*50;
+                                    object.position.z -= 100;
+                                    object.position.y -= 100;
+>>>>>>> aaron
 
                                     const textureLoader = new THREE.TextureLoader();
                                     const map = textureLoader.load('/assets/building_obj/HDU_01.jpg');
@@ -73,7 +79,7 @@ function generateMap(){
                                     objects.push( cube );
                                     scene.add( cube );
                                     
-                                    object.scale.set(0.1, 0.1, 0.1);
+                                    object.scale.set(0.4, 0.4, 0.4);
                                     scene.add( object );
                         
                                 });
@@ -94,8 +100,14 @@ function generateMap(){
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('HDU_lowRez_part2.obj', function (object) {
                         
+<<<<<<< HEAD
                                     object.position.x = 75 + i*50;
                                     object.position.z = 100;
+=======
+                                    object.position.x -= -75 + i*50;
+                                    object.position.z -= 100;
+                                    object.position.y -= 100;
+>>>>>>> aaron
 
                                     const textureLoader = new THREE.TextureLoader();
                                     const map = textureLoader.load('/assets/building_obj/HDU_02.jpg');
@@ -107,7 +119,7 @@ function generateMap(){
                                         }
                                     });
                                     
-                                    object.scale.set(0.1, 0.1, 0.1);
+                                    object.scale.set(0.4, 0.4, 0.4);
                                     scene.add( object );
 
                                 });
@@ -115,48 +127,6 @@ function generateMap(){
                         });
 
 
-                    break;
-
-                    case 2:
-
-                        const LanderTextureLoader = new THREE.MTLLoader();
-                    
-                        // Load 3d gun object
-                        LanderTextureLoader.setTexturePath('/assets/building_obj/');
-                        LanderTextureLoader.setPath('/assets/building_obj/');
-                        LanderTextureLoader.load('lander.mtl', function (materials) {
-
-                                materials.preload();
-
-                                const objLoader = new THREE.OBJLoader();
-
-                                objLoader.setMaterials(materials);
-                                objLoader.setPath('/assets/building_obj/');
-                                objLoader.load('lander.obj', function (object) {
-                        
-                                    object.position.x -= -75 + i*50;
-                                    object.position.z -= 100;
-                                    
-                                    object.scale.set(1, 1, 1);
-
-                                    var geometry = new THREE.BoxGeometry( 120, 100, 100 );
-                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
-                                    var cube = new THREE.Mesh( geometry, material2 );
-
-
-                                    cube.position.y = object.position.y
-                                    cube.position.x = object.position.x
-                                    cube.position.z = object.position.z
-
-                                    objects.push( cube );
-                                    scene.add( cube );
-
-                                    scene.add( object );
-
-                                });
-
-                        });
-                    
                     break;
 
                     case 4:
@@ -178,6 +148,7 @@ function generateMap(){
                         
                                     object.position.x -= -75 + i*50;
                                     object.position.z -= 100;
+                                    object.position.y -= 100;
                                     
                                     object.scale.set(7, 7, 7);
 
@@ -209,8 +180,10 @@ function generateMap(){
                             objLoader.load('Observatory.obj', function (object) {
                     
                                 object.position.x += 100;
+                                object.position.y -= 20;
                                 
-                                object.scale.set(0.1, 0.1, 0.1);
+                                
+                                object.scale.set(0.4, 0.4, 0.4);
 
                                 var geometry = new THREE.BoxGeometry( 100, 100, 100 );
                                 var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
@@ -246,8 +219,9 @@ function generateMap(){
                             loader.load( '/assets/models/gltf/RobotExpressive/RobotExpressive.glb', function( gltf ) {
                                 
                                 model = gltf.scene;
-                                gltf.scene.scale.set(5, 5, 5);
+                                gltf.scene.scale.set(30, 30, 30);
                                 model.position.z -= 1000;
+                                model.position.y -= 100;
                                 scene.add( model );
                                 animatePNJ( model, gltf.animations );
                                 

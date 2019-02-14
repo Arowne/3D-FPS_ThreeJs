@@ -34,7 +34,7 @@ function getCurrentChoice(intersections, objects, selectorContainer, counterCont
                     counter += 1;
                     counterContainer.innerHTML = counter;
                     
-                    if( counter === 10 ){
+                    if( counter === 1 ){
 
                         
                         if( weaponChoice === 'gun' ) {
@@ -55,6 +55,7 @@ function getCurrentChoice(intersections, objects, selectorContainer, counterCont
 
                             unsetGunChoice();
                             generateMap();
+                            shoot();
                         }
                         
                     }
