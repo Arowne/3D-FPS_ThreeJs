@@ -13,16 +13,16 @@
 function generateMap(){
 
     const map = [
+        [0,0,0,0,0,0,0,0,0,4],
         [0,0,0,0,0,0,0,0,0,0],
-        [0,3,0,0,0,4,0,0,3,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,1,1,1,1,0,0,0],
-        [0,0,0,1,6,1,1,0,0,0],
         [0,0,0,1,1,1,1,0,0,0],
+        [0,0,0,1,5,1,1,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
-        [0,3,0,0,0,0,0,0,3,0],
-        [0,0,0,0,0,0,0,0,0,0]
+        [0,0,0,0,6,0,0,0,0,0],
+        [3,0,0,0,0,0,0,0,0,3]
     ];
 
     for(let i = 0; i < map.length ; i++){
@@ -48,8 +48,9 @@ function generateMap(){
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('HDU_lowRez.obj', function (object) {
                         
-                                    object.position.x = 75 + i*50;
-                                    object.position.z = 100;
+                                    object.position.x = 500 + i*50;
+                                    object.position.y -= 100;
+                                    object.position.z = 20 + j*100;
 
                                     const textureLoader = new THREE.TextureLoader();
                                     const map = textureLoader.load('/assets/building_obj/HDU_01.jpg');
@@ -94,8 +95,9 @@ function generateMap(){
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('HDU_lowRez_part2.obj', function (object) {
                         
-                                    object.position.x = 75 + i*50;
-                                    object.position.z = 100;
+                                    object.position.x = 500 + i*50;
+                                    object.position.y -= 100;
+                                    object.position.z = 20 + j*100;
 
                                     const textureLoader = new THREE.TextureLoader();
                                     const map = textureLoader.load('/assets/building_obj/HDU_02.jpg');
@@ -134,9 +136,9 @@ function generateMap(){
                                 objLoader.setPath('/assets/building_obj/');
                                 objLoader.load('futuristic spacecraft_obj.obj', function (object) {
                         
-                                    object.position.x -= -75 + i*50;
-                                    object.position.z -= 100;
-                                    object.position.y -= 100;
+                                    object.position.x = 75 + i*50;
+                                    object.position.z = 100 + j*50;
+                                    object.position.y -= 50;
                                     
                                     object.scale.set(25, 35, 25);
 
@@ -168,12 +170,12 @@ function generateMap(){
                             objLoader.load('Observatory.obj', function (object) {
                     
                                 object.position.x += 100;
-                                object.position.y -= 20;
+                                object.position.y = 0;
                                 
                                 
                                 object.scale.set(0.4, 0.4, 0.4);
 
-                                var geometry = new THREE.BoxGeometry( 100, 100, 100 );
+                                var geometry = new THREE.BoxGeometry( 1000, 1000, 1000 );
                                 var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
                                 var cube = new THREE.Mesh( geometry, material2 );
 
@@ -187,9 +189,9 @@ function generateMap(){
                                     }
                                 });
 
-                                cube.position.y = object.position.y
-                                cube.position.x = object.position.x
-                                cube.position.z = object.position.z
+                                cube.position.y = object.position.y;
+                                cube.position.x = object.position.x;
+                                cube.position.z = object.position.z;
 
                                 objects.push( cube );
                                 scene.add( cube );

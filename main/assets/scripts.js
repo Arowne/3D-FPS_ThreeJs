@@ -164,6 +164,9 @@ var vaisseau = {
             $('#blocker').show();
             $('#selector-container').show();
             $('#game-board').show();
+            $('.life').append('<p style="color:#001229; font-size: 25px; position: absolute; margin: 0;">' + stuff['life'] + '</p>');
+            $('.bullet').append('<p>' + stuff['bullet'] + '</p>');
+            $('.grenade').append('<p>' + stuff['granades'] + '</p>');
 
             init();
             animate();
@@ -521,8 +524,12 @@ function animate() {
             controls.getObject().rotation.x,
             controls.getObject().rotation.y,
             controls.getObject().rotation.z
+<<<<<<< HEAD
 
         )
+=======
+        );
+>>>>>>> fd1e29dd5371d725aac8167d4eb231b97409187e
 
         scene.add(stuff.gun);
 
@@ -556,8 +563,8 @@ function animate() {
          direction.normalize(); // this ensures consistent movements in all directions
 
 
-         if ( moveForward || moveBackward ) velocity.z -= direction.z * 800.0 * delta;
-         if ( moveLeft || moveRight ) velocity.x -= direction.x * 800.0 * delta;
+         if ( moveForward || moveBackward ) velocity.z -= direction.z * 1200.0 * delta;
+         if ( moveLeft || moveRight ) velocity.x -= direction.x * 1200.0 * delta;
          
          controls.getObject().translateX( velocity.x * delta );
          controls.getObject().translateY( velocity.y * delta );
