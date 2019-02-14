@@ -72,9 +72,10 @@ function getObjcetIntersect(intersections, objects, selectorContainer, counterCo
             }, 1000);
 
         }
-        else if( vaisseauUUID == intersections[0].object.uuid && played == true){
+        else if( vaisseauUUID == intersections[0].object.uuid ){
 
             vaisseau.fly = true;
+            console.log('uuid');
             
         }
     }

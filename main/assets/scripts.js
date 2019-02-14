@@ -452,7 +452,7 @@ function animate() {
 
     requestAnimationFrame( animate );
 
-    if(vaisseau.fly == true ){
+    if(vaisseau.fly){
 
         console.log('fly');
 
@@ -524,12 +524,8 @@ function animate() {
             controls.getObject().rotation.x,
             controls.getObject().rotation.y,
             controls.getObject().rotation.z
-<<<<<<< HEAD
 
         )
-=======
-        );
->>>>>>> fd1e29dd5371d725aac8167d4eb231b97409187e
 
         scene.add(stuff.gun);
 
