@@ -525,12 +525,7 @@ function animate() {
             controls.getObject().rotation.y,
             controls.getObject().rotation.z
 
-<<<<<<< HEAD
         )
-=======
-
-        );
->>>>>>> 7c6a364c1db4dd4ab05afb506ce09b599a3f8737
 
         scene.add(stuff.gun);
 
