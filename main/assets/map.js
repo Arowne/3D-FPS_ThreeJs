@@ -138,12 +138,11 @@ function generateMap(){
                                     object.position.z -= 100;
                                     object.position.y -= 100;
                                     
-                                    object.scale.set(7, 7, 7);
+                                    object.scale.set(25, 35, 25);
 
-                                    var geometry = new THREE.BoxGeometry( 100, 100, 100 );
-                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
+                                    var geometry = new THREE.BoxGeometry( 300, 200, 350 );
+                                    var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0.5} );
                                     var cube = new THREE.Mesh( geometry, material2 );
-
 
                                     cube.position.y = object.position.y
                                     cube.position.x = object.position.x
@@ -151,9 +150,10 @@ function generateMap(){
 
                                     objects.push( cube );
                                     scene.add( cube );
-
                                     scene.add( object );
 
+                                    vaisseauUUID = cube.uuid;
+                                    
                                 });
 
                         });

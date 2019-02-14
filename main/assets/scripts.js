@@ -1,4 +1,4 @@
-var camera, scene, renderer, controls, clock, mixer, actions, activeAction, previousAction, model;
+var camera, scene, renderer, controls, clock, mixer, actions, activeAction, previousAction, model, vaisseauUUID ;
 var objects = [];
 var guns = [];
 var granades = [];
@@ -57,6 +57,12 @@ var pnjDirection = {
 };
 
 
+var vaisseau = {
+
+    fly: false
+
+};
+
 // BoardMenu
 
 
@@ -88,7 +94,9 @@ var pnjDirection = {
     }
 
     function reverseIntroButtons() {
+
         timelineIntroScreen.reverse();
+
     }
 
     function fadeToScreen(targetScreenClassName) {
@@ -103,15 +111,10 @@ var pnjDirection = {
         var $elementTarget = $('.' + _nameScreen);
         var $elementActiveScreen = $('.active-screen');
 
-        console.log('$elementTarget: ', $elementTarget);
-        console.log('targetScreenClassName: ', targetScreenClassName);
-        console.log('$elementActiveScreen: ', $elementActiveScreen);
-
         return TweenMax.to($elementActiveScreen, .4, {
             autoAlpha: 0,
             y: '+=10',
             onComplete: function() {
-                console.log('onComplete: ', $elementTarget);
 
                 $elementActiveScreen.removeClass('active-screen');
 
@@ -238,21 +241,21 @@ function solLunaire(positionX, positionY,  positionZ) {
 
             } );
 
-            object.position.set(-920, -30, -920);
+            object.position.set(-1420, -30, -1420);
             object.scale.set(16, 10, 9.5);
 
 
             let floor = []; 
 
-            for(let j = 0; j <= 13; j++){
+            for(let j = 0; j <= 17; j++){
 
                 floor[j] = [];
 
-                for (let i = 0; i <= 13; i++){
+                for (let i = 0; i <= 17; i++){
                 
                     floor[j][i] = object.clone();
                     
-                    floor[j][i].position.set( i*160 -920, -120, j*160 -920);
+                    floor[j][i].position.set( i*160 -1420, -120, j*160 -1420);
                     scene.add(floor[j][i]);
     
                 }
@@ -270,7 +273,7 @@ function init() {
     
     clock = new THREE.Clock();
 
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1500 );
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0x000000);
 
@@ -446,6 +449,11 @@ function animate() {
 
     requestAnimationFrame( animate );
 
+    if(vaisseau.fly == true ){
+
+        console.log('fly');
+
+    }
 
     if(model){
 
@@ -493,7 +501,7 @@ function animate() {
             if(collision){
 
                 pnjDirection.direction = -10;
-                model.rotation.y += 3,14159;
+                model.rotation.y += 3.14159;
                 
             }
         }
@@ -505,13 +513,15 @@ function animate() {
     if(stuff.gun){
 
         stuff.gun.position.y = controls.getObject().position.y;
-        stuff.gun.position.x = controls.getObject().position.x - Math.cos(controls.getObject().rotation.y) * 0.6;
-        stuff.gun.position.z = controls.getObject().position.z + Math.sin(controls.getObject().rotation.y) * 0.6;
+        stuff.gun.position.x = controls.getObject().position.x;
+        stuff.gun.position.z = controls.getObject().position.z;
 
         stuff.gun.rotation.set(
+
             controls.getObject().rotation.x,
             controls.getObject().rotation.y,
             controls.getObject().rotation.z
+
         )
 
         scene.add(stuff.gun);
@@ -553,7 +563,7 @@ function animate() {
          controls.getObject().translateY( velocity.y * delta );
          controls.getObject().translateZ( velocity.z * delta );
          
-         if(onObject && intersections[0].distance <= 10){
+         if(onObject){
 
              if ((i === 0 || i === 1 || i === 7) && direction.z === 1) {
 
@@ -562,7 +572,7 @@ function animate() {
                  
                  if(game.started === false ){
                    
-                    getCurrentChoice(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                    getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
                  
                 }
                  
@@ -574,7 +584,7 @@ function animate() {
                  controls.getObject().position.z += 15;
                  
                 if(game.started === false ){
-                    getCurrentChoice(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                    getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
                  
                 }
 
@@ -586,7 +596,7 @@ function animate() {
                  
                  if(game.started === false ){
                    
-                    getCurrentChoice(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                    getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
                  
                 }
                  
@@ -597,7 +607,7 @@ function animate() {
                  controls.getObject().position.x += 15;
                  if(game.started === false ){
                  
-                    getCurrentChoice(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                    getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
                     
                  }
 

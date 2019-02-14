@@ -1,5 +1,5 @@
 // Set choose gun
-function getCurrentChoice(intersections, objects, selectorContainer, counterContainer, weaponChoice){
+function getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice){
 
     var played = true;
     stopped = false;
@@ -56,6 +56,13 @@ function getCurrentChoice(intersections, objects, selectorContainer, counterCont
                             unsetGunChoice();
                             generateMap();
                             shoot();
+                            controls.getObject().position.set(
+
+                                -500,
+                                0,
+                                -500
+
+                            )
                         }
                         
                     }
@@ -64,6 +71,11 @@ function getCurrentChoice(intersections, objects, selectorContainer, counterCont
 
             }, 1000);
 
+        }
+        else if( vaisseauUUID == intersections[0].object.uuid && played == true){
+
+            vaisseau.fly = true;
+            
         }
     }
 
