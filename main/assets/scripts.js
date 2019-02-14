@@ -144,6 +144,7 @@ var vaisseau = {
     $('#command').hide();
     $('#menu-container').hide();
     $('#game-board').hide();
+    $('.viseur').hide();
 
     // Bindings
     $(document).on('click', SELECTOR_REPLAY_INTRO_BUTTONS, function(event) {
@@ -165,6 +166,7 @@ var vaisseau = {
 
             $('.game').css('width', 0);
             $('#title').hide();
+            $('.viseur').show();
             $('#blocker').show();
             $('#selector-container').show();
             $('#game-board').show();
