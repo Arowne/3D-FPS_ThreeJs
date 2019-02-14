@@ -6,7 +6,6 @@
 				html, body {
 					width: 100%;
 					height: 100%;
-					/*margin:0;*/
 				}
 				body {
 					/*color: #ecf0f1; */
@@ -25,7 +24,6 @@
 					-moz-animation: Gradient 15s ease infinite;
 					animation: Gradient 15s ease infinite;
 				}
-
 				#blocker {
 					position: absolute;
 					width: 100%;
@@ -224,9 +222,19 @@
 				margin-right: 15px;
 			}
 
+				.viseur{
+
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					font-size: 10px;
+					color: #ffffff;
+				}
+
 			</style>
 
-		   		  
+			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	</head>
 	<body>
 
@@ -288,19 +296,22 @@
 
 			<div id="instructions">
 
+
 			</div>
-
+		
 		</div>
+		
 
-
-
+				
 		<div id="selector-container">
 
 			<div id="counter-container">
-
-				<span style="font-size:40px" id="counter"></span>
+				<span id="counter"></span>
 			</div>
-
+		
+		</div>
+		<div class="viseur">
+			<i class="fas fa-crosshairs"></i>
 		</div>
 		<div id="menu-container">
 			<h1 class="title" id="title">FPS GAMING</h1>
@@ -326,9 +337,7 @@
 
 
 		<script src="/assets/three.js"></script>
-		<!--<script src="/assets/jquery.js"></script>-->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+		<script src="/assets/LoaderSupport.js"></script>
 		<script src="/assets/PointerLockControls.js"></script>
 		<script src="/assets/OBJLoader.js"></script>
 		<script src="/assets/MTLLoader.js"></script>

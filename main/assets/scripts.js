@@ -3,6 +3,7 @@ var objects = [];
 var guns = [];
 var granades = [];
 var textArray = [];
+var bullets = [];
 var raycaster;
 var moveForward = false;
 var moveBackward = false;
@@ -206,21 +207,37 @@ var pnjDirection = {
 // Set floor texture
 function solLunaire(positionX, positionY,  positionZ) {
 
+
+    // lights
+    scene.add(new THREE.AmbientLight(0x736F6E));
+
+    var directionalLight=new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position=camera.position;
+    scene.add(directionalLight);
+
     const mtlLoader = new THREE.MTLLoader();
     mtlLoader.setTexturePath('/assets/obj_and_mtl/');
-    mtlLoader.setPath('/assets/obj_and_mtl/');
-    mtlLoader.load('altarStone.mtl', function (materials) {
+    mtlLoader.setPath('/assets/moon-floor/');
+    mtlLoader.load('mountains.mtl', function (materials) {
 
         materials.preload();
+        var textureLoader = new THREE.TextureLoader();
+        var map = textureLoader.load('/assets/moon-floor/martian.png');
+        var material = new THREE.MeshPhongMaterial({map: map});
 
         const objLoader = new THREE.OBJLoader();
         objLoader.setMaterials(materials);
-        objLoader.setPath('/assets/obj_and_mtl/');
-        objLoader.load('moon_near_side.obj', function (object) {
+        objLoader.setPath('/assets/moon-floor/');
+        objLoader.load('mountains.obj', function (object) {
+
+            object.traverse( function ( node ) {
+
+                if ( node.isMesh ) node.material = material;
+
+            } );
 
             object.position.set(-920, -30, -920);
-            object.scale.set(2.05, 2.05, 2.05);
-            object.rotateX( - Math.PI / 2 );
+            object.scale.set(16, 10, 9.5);
 
 
             let floor = []; 
@@ -233,7 +250,7 @@ function solLunaire(positionX, positionY,  positionZ) {
                 
                     floor[j][i] = object.clone();
                     
-                    floor[j][i].position.set( i*160 -920, -30, j*160 -920);
+                    floor[j][i].position.set( i*160 -920, -120, j*160 -920);
                     scene.add(floor[j][i]);
     
                 }
@@ -272,8 +289,6 @@ function init() {
 
         blocker.style.display = 'none';
         counterContainer.innerHTML = "";
-
-
 
     } );
 
@@ -353,16 +368,16 @@ function init() {
     raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
     // // floor
-    var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
-    floorGeometry.MeshBasicMaterial
-    floorGeometry.rotateX( - Math.PI / 2 );
+    // var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
+    // floorGeometry.MeshBasicMaterial
+    // floorGeometry.rotateX( - Math.PI / 2 );
 
-    position = floorGeometry.attributes.position;
+    // position = floorGeometry.attributes.position;
     
-    var floorMaterial = new THREE.MeshBasicMaterial( { color: 'red', wireframe: true} );
-    var floor = new THREE.Mesh( floorGeometry, floorMaterial );
+    // var floorMaterial = new THREE.MeshBasicMaterial( { color: 'red', wireframe: true} );
+    // var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 
-  //  scene.add( floor );
+    scene.add( floor );
 
     
     renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -382,7 +397,7 @@ function init() {
     setGunChoice();
     
     //#Decommente ça si tu es un homme
-     solLunaire();
+    solLunaire();
 
 }
 
@@ -417,7 +432,7 @@ function animatePNJ( model, animations ) {
 
     }
 
-    activeAction = actions['Idle'];
+    activeAction = actions['Walking'];
     
     activeAction.play();
     
@@ -429,6 +444,21 @@ function animate() {
 
     requestAnimationFrame( animate );
 
+    for (let index = 0; index < bullets.length; index++) {
+
+        if( bullets[index] === undefined ){ continue; }
+
+        if( bullets[index].alive === false ){
+
+            bullets[index].splice(index, 1);
+
+        }
+
+        bullets[index].position.sub(bullets[index].velocity);
+
+    }
+
+
     if(model){
 
         model.position.z += pnjDirection.direction;
@@ -439,19 +469,51 @@ function animate() {
             firstBB = new THREE.Box3().setFromObject(model);
             secondBB = new THREE.Box3().setFromObject(object);
         
-            var collision = firstBB.isIntersectionBox(secondBB);
+            var collision = firstBB.intersectsBox(secondBB);
 
             if(collision){
 
-                pnjDirection.direction = -1;     
+                pnjDirection.direction = -10;
                 model.rotation.y += 3,14159;
                 
             }
         }
 
+
+        for (let j = 0; j < bullets.length; j++) {
+
+            const currentBullet = bullets[j];
+            modelBB = new THREE.Box3().setFromObject(model);
+            currentBulletBB = new THREE.Box3().setFromObject(currentBullet);
+
+            var bulletCollision = modelBB.intersectsBox(currentBulletBB);
+
+            if(bulletCollision){
+
+                model = '';
+
+            }
+
+        }
+
     }
-    
-    scene.add(stuff.gun);
+
+    if(stuff.gun){
+
+        stuff.gun.position.y = controls.getObject().position.y;
+        stuff.gun.position.x = controls.getObject().position.x - Math.cos(controls.getObject().rotation.y) * 0.6;
+        stuff.gun.position.z = controls.getObject().position.z + Math.sin(controls.getObject().rotation.y) * 0.6;
+
+        stuff.gun.rotation.set(
+            controls.getObject().rotation.x,
+            controls.getObject().rotation.y,
+            controls.getObject().rotation.z
+        )
+
+        scene.add(stuff.gun);
+
+    }
+
     
     //Set raycaster position to controls position ray casting detection;
     raycaster.ray.origin.copy( controls.getObject().position );
@@ -480,8 +542,8 @@ function animate() {
          direction.normalize(); // this ensures consistent movements in all directions
 
 
-         if ( moveForward || moveBackward ) velocity.z -= direction.z * 500.0 * delta;
-         if ( moveLeft || moveRight ) velocity.x -= direction.x * 500.0 * delta;
+         if ( moveForward || moveBackward ) velocity.z -= direction.z * 800.0 * delta;
+         if ( moveLeft || moveRight ) velocity.x -= direction.x * 800.0 * delta;
          
          controls.getObject().translateX( velocity.x * delta );
          controls.getObject().translateY( velocity.y * delta );
