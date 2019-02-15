@@ -57,13 +57,9 @@ function getObjcetIntersect(intersections, objects, selectorContainer, counterCo
                             generateMap();
                             shoot();
 
-                            // controls.getObject().position.set(
+                            controls.getObject().position.x = discutionBlockObject.position.x - 200;
+                            controls.getObject().position.z = discutionBlockObject.position.z;
 
-                            //     +800,
-                            //     0,
-                            //     +1000
-
-                            // )
                         }
                         
                     }

@@ -212,23 +212,6 @@ function generateMap(){
 
                     case 6: 
                             
-                    // // personage
-                    // var loader = new THREE.GLTFLoader();
-                    // loader.load( '/assets/models/gltf/RobotExpressive/RobotExpressive.glb', function( gltf ) {
-                        
-                    //     model = gltf.scene;
-                    //     gltf.scene.scale.set(30, 30, 30);
-                    //     model.position.z -= 1000;
-                    //     model.position.y -= 100;
-                    //     model.position.x += 500;
-                    //     modelGTLF = gltf;
-                    //     scene.add( model );
-
-                    //     animatePNJ( model, gltf.animations, 'Walking' );
-                        
-                    // }, undefined, function( e ) {
-                    //     console.error( e );
-                    // } );
                     
                     var loader = new THREE.GLTFLoader();
                     loader.load( '/assets/models/gltf/Soldier/Soldier.glb', function ( gltf ) {
@@ -245,7 +228,7 @@ function generateMap(){
 
 
                         var geometry = new THREE.BoxGeometry( 50, 700, 50 );
-                        var material5 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0.2} );
+                        var material5 = new THREE.MeshBasicMaterial( {color: 0x7CFC00, transparent:true, opacity: 0.2} );
                         var cube5 = new THREE.Mesh( geometry, material5 );
 
                         cube5.position.y = model.position.y;
@@ -435,6 +418,9 @@ function generateMap(){
 
 
     }
+
+    controls.getObject().position.x = - 1050 + 200;
+    controls.getObject().position.z = 950;
 
 }
 

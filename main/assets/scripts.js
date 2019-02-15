@@ -478,7 +478,6 @@ function botMoovement() {
 
                         }
 
-                        console.log( scenario.niveau );
     
                     }, 800);
 

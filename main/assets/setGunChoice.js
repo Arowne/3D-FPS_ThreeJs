@@ -71,13 +71,13 @@ function setGunChoice(){
                             }
                         });
                         
-                        object.scale.set(0.01, 0.01, 0.01);
+                        object.scale.set(0.07, 0.07, 0.07);
 
                         break;
                     
                     case 1:
                         
-                        object.scale.set(0.2, 0.5, 0.5);
+                        object.scale.set(0.5, 0.5, 0.5);
                         object.rotation.y = 90 * Math.PI / 180;
 
                         break;
@@ -91,7 +91,7 @@ function setGunChoice(){
                         });
 
 
-                        object.scale.set(0.01, 0.01, 0.01);
+                        object.scale.set(0.07, 0.07, 0.07);
                         object.rotation.y = 90 * Math.PI / 180;
                         break;
                     
@@ -104,7 +104,7 @@ function setGunChoice(){
                         });
 
 
-                        object.scale.set(0.01, 0.01, 0.01);
+                        object.scale.set(0.07, 0.07, 0.07);
                         break;
 
 
