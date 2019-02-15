@@ -282,3 +282,72 @@ height: 50%;
 margin-left: 8%;
 }
 
+.success {
+    z-index: 12222222;
+    position: absolute;
+    display: flex;
+    top:0;
+    left: 210px;
+    width: 40%;
+    height: 16%;
+    border: 5px solid darkslategray;
+    background-color: rgba(0, 47, 94, 0.85);
+}
+
+.success > p {
+    padding-left: 6%;
+    padding-right: 6%;
+    height: 107px;
+    padding-top: 3%;
+    line-height: 200%;
+}
+
+.end {
+    z-index: 12222222;
+    position: absolute;
+    display: flex;
+    width: 40%;
+    height: 30%;
+
+}
+
+.end > p {
+    padding-left: 35%;
+    padding-right: 30%;
+    height: 107px;
+    padding-top: 3%;
+    line-height: 200%;
+    font-size: 32px;
+}
+
+.game-over {
+    z-index: 12222222;
+    position: absolute;
+    display: flex;
+    width: 40%;
+    height: 30%;
+}
+
+.game-over > p {
+    padding-left: 35%;
+    padding-right: 30%;
+    height: 107px;
+    padding-top: 3%;
+    line-height: 200%;
+    font-size: 32px;
+}
+
+.reload {
+    width: 200px;
+    display: flex;
+    height: 110px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.reload > img {
+    height: 55px;
+    position: absolute;
+    right: 0px;
+}

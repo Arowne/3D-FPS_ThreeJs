@@ -20,7 +20,7 @@ var color = new THREE.Color();
 var weaponChoice = "gun";
 var modelGTLF = null;
 var brandonGLTF = null;
-var robot_killed = 0;
+var end = false;
 
 const compteur = document.getElementById('compteur');
 
@@ -122,7 +122,14 @@ var bot = {
 
 // Init environnement
 function init() {
-    
+
+    //reload
+
+    $('.reload').on('click', function() {
+        location.reload();
+    });
+
+
     clock = new THREE.Clock();
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1500 );
@@ -241,7 +248,7 @@ function init() {
     setGunChoice();
     
     //#Decommente ça si tu es un homme
-    // solMartien();
+     solMartien();
 
 }
 
@@ -407,8 +414,24 @@ function vaisseauMoovement(){
 
         if(vaisseau.object.position.z >= 1500){
 
+            $('.robot-killed').hide();
+            $('#game-board').hide();
+            $('.success').hide();
+
             scene.remove(vaisseau.object);
             scene.remove(vaisseau.cube);
+
+
+            $('canvas').hide(2500, function() {
+                $('#blocker').hide();
+                $('#selector-container').hide();
+                $('.end').show(2500, function() {
+                    $(this).hide(2500, function() {
+
+                        $('.game').show(2500);
+                    })
+                })
+            });
 
         }
 
@@ -462,7 +485,10 @@ function botMoovement() {
                         if(scenario.niveau >= 10) {
 
                             vaisseau.autorisation = true;
+                            end = true;
                             scene.remove(model);
+
+                            $('.success').show(5000);
 
 
                         }
@@ -632,6 +658,7 @@ function rayCastingCollision(){
                if( vaisseau.uuid === intersections[0].object.uuid ){
    
                    vaisseau.fly = true;
+
                    
                }
 
@@ -740,7 +767,10 @@ function setLife(){
         currentLifeContainer.innerHTML = stuff.life;
 
     }, 1000);
-    
+
+    if(stuff.life <= 0) {
+        $('.game-over').show();
+    }
 }
 
 
@@ -751,22 +781,29 @@ function animate() {
 
     animationFrame.i += 1;
 
-
     moovePotionBlock();
     mooveSimpleBlocker();
     vaisseauMoovement();
     gunPosition();
     rayCastingCollision();
-    botMoovement();        
+    botMoovement();
 
     
     if(scenario.new === true && animationFrame.i % 40 == 0) {
 
         scenario.new = false;
         scenario.niveau += 1;
+        console.log(scenario.niveau -1);
+        if(end === true) {
+            $('.success').show(7500, function() {
+                $(this).hide();
+            });
+        }
         setLevel();
 
     }
+
+
 
     renderer.render( scene, camera );
 

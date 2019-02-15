@@ -70,6 +70,9 @@
     var audio = new Audio('assets/music/graveyard-shift-by-kevin-macleod.mp3');
     audio.play();
 
+    $('.game-over').hide();
+    $('.end').hide();
+    $('.success').hide();
     $('.robot-killed').hide();
     $('#text-content').hide();
     $('#blocker').hide();
@@ -94,7 +97,6 @@
         event.preventDefault();
       //  reverseIntroButtons();
         $('.game').hide(400, function() {
-
 
             $('.game').css('width', 0);
             $('#title').hide();
