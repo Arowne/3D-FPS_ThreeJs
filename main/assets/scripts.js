@@ -46,7 +46,7 @@ var stuff = {
     gun: '',
     granades: 3,
     bullet: 150,
-    life: 80,
+    life: 70,
     speed: 100,
     experience: 0
 };
