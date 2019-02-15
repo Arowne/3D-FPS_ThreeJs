@@ -270,7 +270,7 @@ function generateMap(){
 
                             object.scale.set(3.4, 4.8, 2);
 
-                            var geometry = new THREE.BoxGeometry( 1000, 1000, 1000 );
+                            var geometry = new THREE.BoxGeometry( 1250, 1250, 1250 );
                             var material2 = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent:true, opacity: 0} );
                             var cube4 = new THREE.Mesh( geometry, material2 );
 
@@ -284,10 +284,9 @@ function generateMap(){
                                 }
                             });
 
-                            cube4.position.y = object.position.y;
-                            cube4.position.x = object.position.x;
+                            cube4.position.y = object.position.y + 500;
+                            cube4.position.x = object.position.x - 200;
                             cube4.position.z = object.position.z;
-
                             objects.push( cube4 );
                             scene.add( cube4 );
 

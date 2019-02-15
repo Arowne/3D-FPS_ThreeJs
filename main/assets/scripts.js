@@ -20,6 +20,9 @@ var color = new THREE.Color();
 var weaponChoice = "gun";
 var modelGTLF = null;
 var brandonGLTF = null;
+var robot_killed = 0;
+
+const compteur = document.getElementById('compteur');
 
 
 var rays = [
@@ -297,7 +300,6 @@ function moovePotionBlock(){
 
     if( box.potionBoxMoove === true  && scenario.intro == false){
 
-        
         box.moovement += 1;
 
         if( box.moovement <= 20){
@@ -343,7 +345,6 @@ function moovePotionBlock(){
 function mooveSimpleBlocker(){
 
     if( box.blockBoxMoove === true && scenario.intro == false){
-
         
         box.moovement += 1;
 
@@ -393,13 +394,11 @@ function vaisseauMoovement(){
 
     if( vaisseau.fly && vaisseau.autorisation == true ){
 
-
         if( vaisseau.object.position.y >= 50 ) {
 
             vaisseau.a += 10;
             vaisseau.object.position.y += 10;
             vaisseau.object.position.z += 159 + vaisseau.a;
-
 
         }
         else{
@@ -458,7 +457,9 @@ function botMoovement() {
                 if( bot.life <= 0 ){
 
                     animatePNJ( model, modelGTLF.animations, 'Death' );
-
+                    robot_killed += 1;
+                    compteur.innerHTML = robot_killed + '/10';
+                    console.log(robot_killed);
                     setTimeout(function(){
 
 
@@ -681,10 +682,14 @@ function rayCastingCollision(){
 
                         case scenario.intro == true:
 
+                            let text_content = $('#text-content');
+
                                 animatePNJBrandon( brandonGLTF.scene , brandonGLTF.animations, 0);
                                 pnjDirection.direction = 0;
 
+                                text_content.show();
                                 setTimeout(function(){
+
 
                                     scene.remove(brandonGLTF.scene);
                                     scene.remove(scenario.blocker1);
@@ -694,8 +699,10 @@ function rayCastingCollision(){
                                     scenario.intro = false;
                                     scenario.new = true;
                                     pnjDirection.direction = 10;
-                                    
-                                }, 5000);
+                                    text_content.hide();
+                                    $('.robot-killed').show();
+                                    compteur.innerHTML = '0/10';
+                                }, 7500);
 
 
                             break;
