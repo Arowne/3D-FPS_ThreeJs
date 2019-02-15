@@ -642,10 +642,8 @@ function rayCastingCollision(){
                         var lifeContainer = document.querySelector('.life');
                         scene.remove(bottle.object);
                         scene.remove(bottle.cube);
-                        stuff.life += 20;
                         stuff.bullet += 10;
                         stuff.speed += 100;
-                        lifeContainer.innerHTML = stuff.life;
                         bottle.blocker += 1;
 
                     }
