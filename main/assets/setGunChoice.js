@@ -10,7 +10,7 @@ function setGunChoice(){
 
     textLoader.load( '/assets/fonts/A-Space.json', function ( font ) {
 
-        const textFont = new THREE.TextGeometry( 'TAKE YOUR GUN', {
+        const textFont = new THREE.TextGeometry( 'CHOOSE YOUR GUN', {
             font: font,
             size: 12,
 
@@ -29,7 +29,7 @@ function setGunChoice(){
     });
 
     // Gun setting
-    const gunArray = ["mwpnfltgn"];
+    const gunArray = ["laser_gun", "mwpnfltgn", "XCom_laserRifle_obj", "XCom_rifle_obj"];
     const TextureLoader = new THREE.MTLLoader();
 
     // Load 3d gun object
