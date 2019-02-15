@@ -133,10 +133,9 @@ function setGunChoice(){
 function unsetGunChoice(){
 
     for (let i = 0; i < guns.length; i++) {
+
+
         
-        console.log(guns.length);
-
-
         if(guns[i]){
 
             scene.remove(guns[i]);

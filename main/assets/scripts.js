@@ -1,4 +1,6 @@
-var camera, scene, renderer, controls, clock, mixer, actions, activeAction, previousAction, model ;
+var camera, scene, renderer, controls, clock;
+var model, mixer, actions, activeAction ;
+var robot, mixer2, actions2, activeAction2 ;
 var objects = [];
 var guns = [];
 var granades = [];
@@ -16,16 +18,17 @@ var direction = new THREE.Vector3();
 var vertex = new THREE.Vector3();
 var color = new THREE.Color();
 var weaponChoice = "gun";
-var modelGTLF;
+var modelGTLF = null;
+var brandonGLTF = null;
 
 
 var rays = [
     new THREE.Vector3(0, 0, 1),
     new THREE.Vector3(1, 0, 1),
+    new THREE.Vector3(1, 0, 0),
     new THREE.Vector3(1, 0, -1),
     new THREE.Vector3(0, 0, -1),
     new THREE.Vector3(-1, 0, -1),
-    new THREE.Vector3(1, 0, 0),
     new THREE.Vector3(-1, 0, 0),
     new THREE.Vector3(-1, 0, 1)
 ];
@@ -41,6 +44,7 @@ var stuff = {
     granades: 3,
     bullet: 150,
     life: 50,
+    speed: 100,
     experience: 0
 };
 
@@ -60,6 +64,7 @@ var pnjDirection = {
 var vaisseau = {
 
     fly: false,
+    autorisation: false,
     uuid: null,
     object: null,
     cube: null,
@@ -67,215 +72,53 @@ var vaisseau = {
 
 };
 
-// BoardMenu
+var box = {
+
+    potionBoxUiid: null,
+    potionBoxObject: null,
+    potionBoxBlocker: null,
+    potionBoxMoove: false,
+    blockBoxUiid: null,
+    blockBoxObject: null,
+    blockBoxBlocker: null,
+    blockBoxMoove: false,
+    moovement: 0
+};
+
+var bottle = {
+
+    uuid: null,
+    object: null,
+    cube: null,
+    blocker: 0
+
+};
+
+var scenario = {
+
+    intro: true,
+    niveau: 0,
+    time:null,
+    discutionBlockUiid: null,
+    discutionBlockObject: null,
+    blocker1: null,
+    blocker2: null,
+    new: false
 
-
-(function() {
-    var SELECTOR_REPLAY_INTRO_BUTTONS = '#button-replay';
-    var SELECTOR_BUTTON_NEWGAME = '.button-play';
-    var SELECTOR_BUTTON_HOW_TO_PLAY = '.button-command';
-    var SELECTOR_BUTTON_GAME_MENU = '.button-game-menu';
-    var menu = $('.game');
-
-    var timelineIntroScreen;
-
-    function buildTimelines() {
-        timelineIntroScreen = new TimelineMax({
-            paused: false
-        });
-
-        timelineIntroScreen.staggerFrom('.screen-intro .button', 2, {
-            css: {
-                scale: 0
-            },
-            autoAlpha: 0,
-            ease: Elastic.easeOut
-        }, .1);
-    }
-
-    function playIntroButtons() {
-        timelineIntroScreen.restart();
-    }
-
-    function reverseIntroButtons() {
-
-        timelineIntroScreen.reverse();
-
-    }
-
-    function fadeToScreen(targetScreenClassName) {
-        var _nameScreen;
-
-        if (!targetScreenClassName) {
-            _nameScreen = 'screen-intro';
-        }
-
-        _nameScreen = targetScreenClassName;
-
-        var $elementTarget = $('.' + _nameScreen);
-        var $elementActiveScreen = $('.active-screen');
-
-        return TweenMax.to($elementActiveScreen, .4, {
-            autoAlpha: 0,
-            y: '+=10',
-            onComplete: function() {
-
-                $elementActiveScreen.removeClass('active-screen');
-
-                TweenMax
-                    .to($elementTarget, .4, {
-                        y: '-=10',
-                        autoAlpha: 1,
-                        className: '+=active-screen'
-                    });
-            }
-        });
-
-    }
-
-    // Initialize
-    $(document).ready(buildTimelines);
-
-    var audio = new Audio('assets/music/graveyard-shift-by-kevin-macleod.mp3');
-    audio.play();
-
-    $('#blocker').hide();
-    $('#selector-container').hide();
-    $('#command').hide();
-    $('#menu-container').hide();
-    $('#game-board').hide();
-    $('.viseur').hide();
-
-    // Bindings
-    $(document).on('click', SELECTOR_REPLAY_INTRO_BUTTONS, function(event) {
-        event.preventDefault();
-
-        if (!$('.screen-intro').hasClass('active-screen')) {
-            return;
-        }
-
-        playIntroButtons();
-    });
-
-    menu.on('click', SELECTOR_BUTTON_NEWGAME, function(event) {
-       // console.log('hahaha');
-        event.preventDefault();
-      //  reverseIntroButtons();
-        $('.game').hide(400, function() {
-
-
-            $('.game').css('width', 0);
-            $('#title').hide();
-            $('.viseur').show();
-            $('#blocker').show();
-            $('#selector-container').show();
-            $('#game-board').show();
-            $('.life').append('<p class="life" style="color:#001229; font-size: 25px; position: absolute; margin: 0;">' + stuff['life'] + '</p>');
-            document.getElementById('pbullet').innerHTML = stuff.bullet;
-            $('.grenade').append('<p class="grenade">' + stuff['granades'] + '</p>');
-
-            init();
-            animate();
-            audio.pause();
-
-        });
-
-
-
-        timelineIntroScreen.eventCallback('onReverseComplete', function() {
-           // fadeToScreen('screen-game');
-
-        });
-    });
-
-    menu.on('click', SELECTOR_BUTTON_HOW_TO_PLAY, function(event) {
-        event.preventDefault();
-
-        $('#main').hide(400, function() {
-
-            $('#block-menu').css('display', 'flex');
-            $('#title').hide();
-            $('#command').show();
-
-
-        });
-    });
-
-    menu.on('click', SELECTOR_BUTTON_GAME_MENU, function(event) {
-        event.preventDefault();
-
-        $('#command').hide(400, function() {
-
-            $('#main').show();
-            $('#title').show();
-
-        });
-    });
-
-})();
-
-
-//
-
-
-// Set floor texture
-function solLunaire(positionX, positionY,  positionZ) {
-
-
-    // lights
-    scene.add(new THREE.AmbientLight(0x736F6E));
-
-    var directionalLight=new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position=camera.position;
-    scene.add(directionalLight);
-
-    const mtlLoader = new THREE.MTLLoader();
-    mtlLoader.setTexturePath('/assets/obj_and_mtl/');
-    mtlLoader.setPath('/assets/moon-floor/');
-    mtlLoader.load('mountains.mtl', function (materials) {
-
-        materials.preload();
-        var textureLoader = new THREE.TextureLoader();
-        var map = textureLoader.load('/assets/moon-floor/martian.png');
-        var material = new THREE.MeshPhongMaterial({map: map});
-
-        const objLoader = new THREE.OBJLoader();
-        objLoader.setMaterials(materials);
-        objLoader.setPath('/assets/moon-floor/');
-        objLoader.load('mountains.obj', function (object) {
-
-            object.traverse( function ( node ) {
-
-                if ( node.isMesh ) node.material = material;
-
-            } );
-
-            object.position.set(-1420, -30, -1420);
-            object.scale.set(16, 10, 9.5);
-
-
-            let floor = []; 
-
-            for(let j = 0; j <= 17; j++){
-
-                floor[j] = [];
-
-                for (let i = 0; i <= 17; i++){
-                
-                    floor[j][i] = object.clone();
-                    
-                    floor[j][i].position.set( i*160 -1420, -120, j*160 -1420);
-                    scene.add(floor[j][i]);
-    
-                }
-
-            }
-
-        });
-
-    });
-    
 }
+
+var animationFrame = {
+
+    i: 1,
+
+};
+
+var bot = {
+     
+    life: 30
+
+}
+
 
 // Init environnement
 function init() {
@@ -381,19 +224,6 @@ function init() {
 
     raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
-    // // floor
-    // var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
-    // floorGeometry.MeshBasicMaterial
-    // floorGeometry.rotateX( - Math.PI / 2 );
-
-    // position = floorGeometry.attributes.position;
-    
-    // var floorMaterial = new THREE.MeshBasicMaterial( { color: 'red', wireframe: true} );
-    // var floor = new THREE.Mesh( floorGeometry, floorMaterial );
-
-    // scene.add( floor );
-
-    
     renderer = new THREE.WebGLRenderer( { antialias: true } );
 
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -411,7 +241,7 @@ function init() {
     setGunChoice();
     
     //#Decommente ça si tu es un homme
-    solLunaire();
+    solMartien();
 
 }
 
@@ -452,16 +282,119 @@ function animatePNJ( model, animations, animationName ) {
     
 }
 
+function animatePNJBrandon( model, animations, number = 3) {
 
-function animate() {
+    mixer = new THREE.AnimationMixer( model );
+    actions = {};
+
+    activeAction = mixer.clipAction( animations[ number ] );
+    
+    activeAction.play();
+    
+}
+
+function moovePotionBlock(){
+
+    if( box.potionBoxMoove === true  && scenario.intro == false){
+
+        
+        box.moovement += 1;
+
+        if( box.moovement <= 20){
+
+            
+            for (let index = 0; index < 10; index++) {
+                
+                box.potionBoxObject.position.sub(
+                    new THREE.Vector3(
+                        Math.sin(controls.getObject().rotation.y),
+                        0,
+                        Math.cos(controls.getObject().rotation.y),
+                    )
+                )
+
+                box.potionBoxBlocker.position.sub(
+                    new THREE.Vector3(
+                        Math.sin(controls.getObject().rotation.y),
+                        0,
+                        Math.cos(controls.getObject().rotation.y),
+                    )
+                )
+                
+            }
+
+            
+            scene.remove(box.potionBoxObject);
+            scene.add(box.potionBoxObject);
+
+        }
+        else{
+
+            box.potionBoxMoove = false;
+            box.moovement = false;
+
+        }
+
+    }
 
 
-    requestAnimationFrame( animate );
+}
 
-    if(vaisseau.fly){
+function mooveSimpleBlocker(){
+
+    if( box.blockBoxMoove === true && scenario.intro == false){
+
+        
+        box.moovement += 1;
+
+        if( box.moovement <= 20){
+
+            
+            for (let index = 0; index < 10; index++) {
+                
+                box.blockBoxObject.position.sub(
+                    new THREE.Vector3(
+                        Math.sin(controls.getObject().rotation.y),
+                        0,
+                        Math.cos(controls.getObject().rotation.y),
+                    )
+                )
+
+                box.blockBoxBlocker.position.sub(
+                    new THREE.Vector3(
+                        Math.sin(controls.getObject().rotation.y),
+                        0,
+                        Math.cos(controls.getObject().rotation.y),
+                    )
+                )
+                
+            }
+
+            
+            scene.remove(box.blockBoxObject);
+            scene.add(box.blockBoxObject);
+
+        }
+        else{
+
+            box.blockBoxMoove = false;
+            box.moovement = false;
+
+        }
+
+    }
+
+}
 
 
-        if(vaisseau.object.position.y >= 50 ) {
+
+
+function vaisseauMoovement(){
+
+    if( vaisseau.fly && vaisseau.autorisation == true ){
+
+
+        if( vaisseau.object.position.y >= 50 ) {
 
             vaisseau.a += 10;
             vaisseau.object.position.y += 10;
@@ -485,7 +418,12 @@ function animate() {
 
     }
 
-    if(model){
+
+}
+
+function botMoovement() {
+    
+    if( model ){
 
         model.position.z += pnjDirection.direction;
         
@@ -498,23 +436,62 @@ function animate() {
                 bullets[j].splice(j, 1);
     
             }
-    
-            bullets[j].position = bullets[j].position.sub(bullets[j].velocity);
+            
+            for (let index = 0; index < 100; index++) {
+
+                bullets[j].position = bullets[j].position.sub(bullets[j].velocity);  
+
+            }
 
             modelBB = new THREE.Box3().setFromObject(model);
             currentBulletBB = new THREE.Box3().setFromObject(bullets[j]);
 
             var bulletCollision = modelBB.intersectsBox(currentBulletBB);
 
-            if(bulletCollision){
+            if(bulletCollision && modelGTLF != null){
                 
-                animatePNJ( model, modelGTLF.animations, 'Death' );
+                bot.life -= 10
 
-                setTimeout(function(){
+                if( bot.life <= 0 ){
 
-                    scene.remove(model);
+                    animatePNJ( model, modelGTLF.animations, 'Death' );
 
-                }, 800)
+                    setTimeout(function(){
+
+
+                        if(scenario.niveau >= 10) {
+
+                            vaisseau.autorisation = true;
+                            scene.remove(model);
+
+
+                        }
+                        else{
+
+                            scenario.new = true;
+    
+                            bot.life = 30 + scenario.niveau * 10;
+                            scene.remove(model);
+
+                        }
+
+                        console.log( scenario.niveau );
+    
+                    }, 800);
+
+                }
+                else {
+
+                    animatePNJ( model, modelGTLF.animations, 'Death' );
+                    
+                    setTimeout(function(){
+
+                        animatePNJ( model, modelGTLF.animations, 'Walking' );
+
+
+                    }, 100);
+                    
+                }
 
             }
 
@@ -529,8 +506,13 @@ function animate() {
             var collision = firstBB.intersectsBox(secondBB);
 
             if(collision){
+<<<<<<< HEAD
 
                 pnjDirection.direction > 0 ? pnjDirection.direction = -10 : pnjDirection.direction = +10;
+=======
+                
+                pnjDirection.direction > 0 ? pnjDirection.direction = -10 : pnjDirection.direction = +10;         
+>>>>>>> b0a712b4b127e0a7b3bc4961781663b8c7651aaf
                 model.rotation.y += 3.14159;
                 
             }
@@ -540,10 +522,15 @@ function animate() {
 
     }
 
-    if(stuff.gun){
+}
+
+function gunPosition(){
+
+
+    if( stuff.gun ){
 
         stuff.gun.position.y = controls.getObject().position.y;
-        stuff.gun.position.x = controls.getObject().position.x;
+        stuff.gun.position.x = controls.getObject().position.x + 0.3;
         stuff.gun.position.z = controls.getObject().position.z;
 
         stuff.gun.rotation.set(
@@ -553,119 +540,221 @@ function animate() {
             controls.getObject().rotation.z
 
         )
-
+        
         scene.add(stuff.gun);
 
     }
 
-    
-    //Set raycaster position to controls position ray casting detection;
-    raycaster.ray.origin.copy( controls.getObject().position );
-    raycaster.ray.origin.y -= 10;
+}
 
 
-    var dt = clock.getDelta();
-    if ( mixer ) mixer.update( dt );
-         
-     
-    for (let i = 0; i < rays.length; i++){
+function rayCastingCollision(){
 
-         raycaster.set(controls.getObject().position , rays[i]);
-
-         var intersections = raycaster.intersectObjects( objects );
-         var onObject = intersections.length > 0;
-         var time = performance.now();
-         var delta = ( time - prevTime ) / 1000;
-
-         velocity.x -= velocity.x * 10.0 * delta;
-         velocity.z -= velocity.z * 10.0 * delta;
-         velocity.y -= 8.8 * 60.0 * delta; // 100.0 = mass
-
-         direction.z = Number( moveForward ) - Number( moveBackward );
-         direction.x = Number( moveLeft ) - Number( moveRight );
-         direction.normalize(); // this ensures consistent movements in all directions
-
-
-         if ( moveForward || moveBackward ) velocity.z -= direction.z * 1200.0 * delta;
-         if ( moveLeft || moveRight ) velocity.x -= direction.x * 1200.0 * delta;
-         
-         controls.getObject().translateX( velocity.x * delta );
-         controls.getObject().translateY( velocity.y * delta );
-         controls.getObject().translateZ( velocity.z * delta );
-         
-         if(onObject){
-
-             if ((i === 0 || i === 1 || i === 7) && direction.z === 1) {
-
-                 direction.z = 0;
-                 controls.getObject().position.z -= 15;
-                 
-                 if(game.started === false ){
-                   
-                    getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
-                 
-                }
-                 
-
-             } 
-             else if ((i === 3 || i === 4 || i === 5) && direction.z === -1) {
-
-                 direction.z = 0;
-                 controls.getObject().position.z += 15;
-                 
-                if(game.started === false ){
-                    getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
-                 
-                }
-
-             }
-             if ((i === 1 || i === 2 || i === 3) && direction.x === 1) {
-                 
-                 direction.x = 0;
-                 controls.getObject().position.x -= 15;
-                 
-                 if(game.started === false ){
-                   
-                    getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
-                 
-                }
-                 
-             } 
-             else if ((i === 5 || i === 6 || i === 7) && direction.x === -1) {
-
-                 direction.x = 0;
-                 controls.getObject().position.x += 15;
-                 if(game.started === false ){
-                 
-                    getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+       //Set raycaster position to controls position ray casting detection;
+       raycaster.ray.origin.copy( controls.getObject().position );
+       raycaster.ray.origin.y -= 10;
+       raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3(), 0, 10);
+   
+       var dt = clock.getDelta();
+       if ( mixer ) mixer.update( dt );
+            
+        
+       for (let i = 0; i < rays.length; i++){
+   
+            raycaster.set(controls.getObject().position , rays[i]);
+   
+            var intersections = raycaster.intersectObjects( objects );
+            var onObject = intersections.length > 0;
+            var time = performance.now();
+            var delta = ( time - prevTime ) / 1000;
+   
+            velocity.x -= velocity.x * 10.0 * delta;
+            velocity.z -= velocity.z * 10.0 * delta;
+            velocity.y -= 8.8 * 60.0 * delta; // 100.0 = mass
+   
+            direction.z = Number( moveForward ) - Number( moveBackward );
+            direction.x = Number( moveLeft ) - Number( moveRight );
+            direction.normalize(); // this ensures consistent movements in all directions
+   
+   
+            if ( moveForward || moveBackward ) velocity.z -= direction.z * (1500.0 + stuff.speed) * delta;
+            if ( moveLeft || moveRight ) velocity.x -= direction.x *( 1500.0 + stuff.speed) * delta;
+            
+            controls.getObject().translateX( velocity.x * delta );
+            controls.getObject().translateY( velocity.y * delta );
+            controls.getObject().translateZ( velocity.z * delta );
+            
+            if(onObject){
+   
+                if ((i === 0 || i === 1 || i === 7) && direction.z === 1) {
+   
+                    direction.z = 0;
+                    controls.getObject().position.z -= 15;
                     
-                 }
+                    if(game.started === false ){
+                      
+                       getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                    
+                   }
+                    
+   
+                } 
+                else if ((i === 3 || i === 4 || i === 5) && direction.z === -1) {
+   
+                    direction.z = 0;
+                    controls.getObject().position.z += 15;
+                    
+                   if(game.started === false ){
+                       getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                    
+                   }
+   
+                }
+                if ((i === 1 || i === 2 || i === 3) && direction.x === 1) {
+                    
+                    direction.x = 0;
+                    controls.getObject().position.x -= 15;
+                    
+                    if(game.started === false ){
+                      
+                       getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                    
+                   }
+                    
+                } 
+                else if ((i === 5 || i === 6 || i === 7) && direction.x === -1) {
+   
+                    direction.x = 0;
+                    controls.getObject().position.x += 15;
+                    if(game.started === false ){
+                    
+                       getObjcetIntersect(intersections, objects, selectorContainer, counterContainer, weaponChoice);
+                       
+                    }
+   
+   
+                }
+   
+               if( vaisseau.uuid === intersections[0].object.uuid ){
+   
+                   vaisseau.fly = true;
+                   
+               }
+
+                if( bottle.uuid === intersections[0].object.uuid ){
+                    
+                    if(bottle.blocker <= 1){
+
+                        var lifeContainer = document.querySelector('.life');
+                        scene.remove(bottle.object);
+                        scene.remove(bottle.cube);
+                        stuff.life += 20;
+                        stuff.speed += 100;
+                        lifeContainer.innerHTML = stuff.life;
+                        bottle.blocker += 1;
+
+                    }
+                    
+                }
+
+   
+   
+               if(  box.potionBoxUiid === intersections[0].object.uuid ) {
+   
+                   box.potionBoxMoove = true
+   
+               }
+   
+   
+               if(  box.blockBoxUiid === intersections[0].object.uuid ) {
+   
+                   box.blockBoxMoove = true
+   
+               }
+
+               if(  box.blockBoxUiid === intersections[0].object.uuid ) {
+   
+                box.blockBoxMoove = true
+
+                }
+                
+                if( scenario.discutionBlockUiid === intersections[0].object.uuid ) {
+    
+                    switch (true) {
+
+                        case scenario.intro == true:
+
+                                animatePNJBrandon( brandonGLTF.scene , brandonGLTF.animations, 0);
+                                pnjDirection.direction = 0;
+
+                                setTimeout(function(){
+
+                                    scene.remove(brandonGLTF.scene);
+                                    scene.remove(scenario.blocker1);
+                                    scene.remove(scenario.blocker2);
+                                    scene.remove(scenario.discutionBlockObject);
+                                    
+                                    scenario.intro = false;
+                                    scenario.new = true;
+                                    pnjDirection.direction = 10;
+                                    
+                                }, 5000);
 
 
-             }
+                            break;
+                    
+                        default:
+                            break;
 
-            if( vaisseau.uuid === intersections[0].object.uuid ){
+                    }
 
-                vaisseau.fly = true;
+                }
+
+   
+            }
+   
+   
+   
+            if ( controls.getObject().position.y < 10 ) {
+   
+                velocity.y = 0;
+                controls.getObject().position.y = 10;
+                canJump = true;
                 
             }
-
-         }
-
-
-
-         if ( controls.getObject().position.y < 10 ) {
-
-             velocity.y = 0;
-             controls.getObject().position.y = 10;
-             canJump = true;
-             
-         }
+   
+   
+            prevTime = time;
+   
+       }
 
 
-         prevTime = time;
+}
+
+function animate() {
+
+    animationFrame.i += 1;
+
+
+    moovePotionBlock();
+    mooveSimpleBlocker();
+    vaisseauMoovement();
+    gunPosition();
+    rayCastingCollision();
+    botMoovement();        
+
+    
+    if(scenario.new == true && animationFrame.i % 2 == 0) {
+
+        scenario.new = false;
+        scenario.niveau += 1;
+
+        setLevel();
 
     }
 
     renderer.render( scene, camera );
+
+    requestAnimationFrame( animate );
+
 }
