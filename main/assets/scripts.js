@@ -450,6 +450,9 @@ function botMoovement() {
 
             if(bulletCollision && modelGTLF != null){
                 
+                var audio = new Audio('/assets/music/bullet_impact.mp3');
+                audio.play();
+
                 bot.life -= 10
 
                 if( bot.life <= 0 ){
@@ -506,13 +509,8 @@ function botMoovement() {
             var collision = firstBB.intersectsBox(secondBB);
 
             if(collision){
-<<<<<<< HEAD
 
                 pnjDirection.direction > 0 ? pnjDirection.direction = -10 : pnjDirection.direction = +10;
-=======
-                
-                pnjDirection.direction > 0 ? pnjDirection.direction = -10 : pnjDirection.direction = +10;         
->>>>>>> b0a712b4b127e0a7b3bc4961781663b8c7651aaf
                 model.rotation.y += 3.14159;
                 
             }
