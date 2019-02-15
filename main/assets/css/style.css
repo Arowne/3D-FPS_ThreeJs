@@ -286,8 +286,10 @@ margin-left: 8%;
     z-index: 12222222;
     position: absolute;
     display: flex;
+    top:0;
+    left: 210px;
     width: 40%;
-    height: 20%;
+    height: 16%;
     border: 5px solid darkslategray;
     background-color: rgba(0, 47, 94, 0.85);
 }

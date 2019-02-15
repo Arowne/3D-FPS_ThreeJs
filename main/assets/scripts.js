@@ -465,9 +465,8 @@ function botMoovement() {
                             end = true;
                             scene.remove(model);
 
-                          /*  $('.success').show(5000, function() {
-                                $(this).hide();
-                            }); */
+                            $('.success').show(5000
+                            );
 
 
                         }
