@@ -46,7 +46,7 @@ var stuff = {
     gun: '',
     granades: 3,
     bullet: 150,
-    life: 50,
+    life: 80,
     speed: 100,
     experience: 0
 };
@@ -643,6 +643,7 @@ function rayCastingCollision(){
                         scene.remove(bottle.object);
                         scene.remove(bottle.cube);
                         stuff.life += 20;
+                        stuff.bullet += 10;
                         stuff.speed += 100;
                         lifeContainer.innerHTML = stuff.life;
                         bottle.blocker += 1;
@@ -730,6 +731,21 @@ function rayCastingCollision(){
 
 
 }
+
+function setLife(){
+
+    setInterval(function(){
+
+        stuff.life -= 0.5;
+        var currentLifeContainer = document.querySelector('#currentLife');
+
+        currentLifeContainer.innerHTML = stuff.life;
+
+    }, 1000);
+    
+}
+
+
 
 function animate() {
 

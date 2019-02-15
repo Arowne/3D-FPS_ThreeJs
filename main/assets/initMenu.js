@@ -102,7 +102,7 @@
             $('#blocker').show();
             $('#selector-container').show();
             $('#game-board').show();
-            $('.life').append('<p class="life" style="color:#001229; font-size: 25px; position: absolute; margin: 0;">' + stuff['life'] + '</p>');
+            $('.life').append('<p class="life" id="currentLife" style="color:#001229; font-size: 25px; position: absolute; margin: 0;">' + stuff['life'] + '</p>');
             document.getElementById('pbullet').innerHTML = stuff.bullet;
             $('.grenade').append('<p class="grenade">' + stuff['granades'] + '</p>');
 

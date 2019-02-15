@@ -56,7 +56,8 @@ function getObjcetIntersect(intersections, objects, selectorContainer, counterCo
                             unsetGunChoice();
                             generateMap();
                             shoot();
-
+                            setLife();
+                            
                             controls.getObject().position.x = discutionBlockObject.position.x - 200;
                             controls.getObject().position.z = discutionBlockObject.position.z;
 

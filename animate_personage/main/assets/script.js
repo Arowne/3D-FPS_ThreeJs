@@ -1,8 +1,10 @@
 var container, stats, clock, gui, mixer, actions, activeAction, previousAction;
 var camera, scene, renderer, model, face;
 var api = { state: 'Walking' };
+
 init();
 animate();
+
 function init() {
     container = document.createElement( 'div' );
     document.body.appendChild( container );
