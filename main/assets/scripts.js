@@ -454,9 +454,8 @@ function botMoovement() {
                 if( bot.life <= 0 ){
 
                     animatePNJ( model, modelGTLF.animations, 'Death' );
-                    robot_killed += 1;
-                    compteur.innerHTML = robot_killed + '/10';
-                    console.log(robot_killed);
+                    compteur.innerHTML = scenario.niveau + '/10';
+
                     setTimeout(function(){
 
 
@@ -734,6 +733,8 @@ function rayCastingCollision(){
 
 function animate() {
 
+    requestAnimationFrame( animate );
+
     animationFrame.i += 1;
 
 
@@ -745,17 +746,15 @@ function animate() {
     botMoovement();        
 
     
-    if(scenario.new == true && animationFrame.i % 3 == 0) {
+    if(scenario.new === true && animationFrame.i % 40 == 0) {
 
         scenario.new = false;
         scenario.niveau += 1;
-
         setLevel();
 
     }
 
     renderer.render( scene, camera );
 
-    requestAnimationFrame( animate );
 
 }

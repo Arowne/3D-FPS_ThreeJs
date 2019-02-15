@@ -1,12 +1,7 @@
 var position = [
     [500, 100, 1000],
-    [500, 100, 1000],
-    [500, 100, 1000],
-    [500, 100, 1000],
-    [500, 100, 1000],
-    [500, 100, 1000],
-    [500, 100, 1000],
-    [500, 100, 1000],
+    [-500, 100, -1000],
+    [500, 100, -1000],
 ];
 
 function getRandomInt(max) {
@@ -23,15 +18,14 @@ function setLevel(){
                     
         var randInt = getRandomInt(position.length);
 
-        console.log(position[1]);
 
         model = gltf.scene;
         gltf.scene.scale.set(30, 30, 30);
 
 
-        model.position.x += position[1][0];
-        model.position.y -= position[1][1];
-        model.position.z -= position[1][2];
+        model.position.x += position[randInt][0];
+        model.position.y -= position[randInt][1];
+        model.position.z -= position[randInt][2];
 
         
         modelGTLF = gltf;
