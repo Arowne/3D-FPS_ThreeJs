@@ -20,7 +20,7 @@ var color = new THREE.Color();
 var weaponChoice = "gun";
 var modelGTLF = null;
 var brandonGLTF = null;
-var robot_killed = 0;
+var end = false;
 
 const compteur = document.getElementById('compteur');
 
@@ -241,7 +241,7 @@ function init() {
     setGunChoice();
     
     //#Decommente ça si tu es un homme
-    // solMartien();
+     solMartien();
 
 }
 
@@ -462,7 +462,12 @@ function botMoovement() {
                         if(scenario.niveau >= 10) {
 
                             vaisseau.autorisation = true;
+                            end = true;
                             scene.remove(model);
+
+                          /*  $('.success').show(5000, function() {
+                                $(this).hide();
+                            }); */
 
 
                         }
@@ -759,16 +764,24 @@ function animate() {
     vaisseauMoovement();
     gunPosition();
     rayCastingCollision();
-    botMoovement();        
+    botMoovement();
 
     
     if(scenario.new === true && animationFrame.i % 40 == 0) {
 
         scenario.new = false;
         scenario.niveau += 1;
+        console.log(scenario.niveau -1);
+        if(end === true) {
+            $('.success').show(7500, function() {
+                $(this).hide();
+            });
+        }
         setLevel();
 
     }
+
+
 
     renderer.render( scene, camera );
 
