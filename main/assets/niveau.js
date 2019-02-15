@@ -19,6 +19,7 @@ function setLevel(){
         var randInt = getRandomInt(position.length);
 
 
+
         model = gltf.scene;
         gltf.scene.scale.set(30, 30, 30);
 
@@ -29,6 +30,13 @@ function setLevel(){
 
         
         modelGTLF = gltf;
+
+        if(pnjDirection.direction < 0 ){
+
+            model.rotation.y += 3.14159
+
+        }
+        
         scene.add( model );
 
         animatePNJ( model, gltf.animations, 'Walking' );
