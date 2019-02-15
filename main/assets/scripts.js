@@ -114,11 +114,8 @@ var animationFrame = {
 };
 
 var bot = {
-     
     life: 30
-
 }
-
 
 // Init environnement
 function init() {
@@ -241,7 +238,7 @@ function init() {
     setGunChoice();
     
     //#Decommente ça si tu es un homme
-    solMartien();
+    // solMartien();
 
 }
 
@@ -437,7 +434,7 @@ function botMoovement() {
     
             }
             
-            for (let index = 0; index < 100; index++) {
+            for (let index = 0; index < 50; index++) {
 
                 bullets[j].position = bullets[j].position.sub(bullets[j].velocity);  
 
@@ -741,7 +738,7 @@ function animate() {
     botMoovement();        
 
     
-    if(scenario.new == true && animationFrame.i % 2 == 0) {
+    if(scenario.new == true && animationFrame.i % 3 == 0) {
 
         scenario.new = false;
         scenario.niveau += 1;
