@@ -407,8 +407,24 @@ function vaisseauMoovement(){
 
         if(vaisseau.object.position.z >= 1500){
 
+            $('.robot-killed').hide();
+            $('#game-board').hide();
+            $('.success').hide();
+
             scene.remove(vaisseau.object);
             scene.remove(vaisseau.cube);
+
+
+            $('canvas').hide(2500, function() {
+                $('#blocker').hide();
+                $('#selector-container').hide();
+                $('.end').show(2500, function() {
+                    $(this).hide(2500, function() {
+
+                        $('.game').show(2500);
+                    })
+                })
+            });
 
         }
 
@@ -465,8 +481,7 @@ function botMoovement() {
                             end = true;
                             scene.remove(model);
 
-                            $('.success').show(5000
-                            );
+                            $('.success').show(5000);
 
 
                         }
@@ -636,6 +651,7 @@ function rayCastingCollision(){
                if( vaisseau.uuid === intersections[0].object.uuid ){
    
                    vaisseau.fly = true;
+
                    
                }
 
@@ -746,7 +762,10 @@ function setLife(){
         currentLifeContainer.innerHTML = stuff.life;
 
     }, 1000);
-    
+
+    if(stuff.life <= 0) {
+        $('.game-over').show();
+    }
 }
 
 
@@ -756,7 +775,6 @@ function animate() {
     requestAnimationFrame( animate );
 
     animationFrame.i += 1;
-
 
     moovePotionBlock();
     mooveSimpleBlocker();

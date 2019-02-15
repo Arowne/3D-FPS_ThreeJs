@@ -301,3 +301,38 @@ margin-left: 8%;
     padding-top: 3%;
     line-height: 200%;
 }
+
+.end {
+    z-index: 12222222;
+    position: absolute;
+    display: flex;
+    width: 40%;
+    height: 30%;
+
+}
+
+.end > p {
+    padding-left: 35%;
+    padding-right: 30%;
+    height: 107px;
+    padding-top: 3%;
+    line-height: 200%;
+    font-size: 32px;
+}
+
+.game-over {
+    z-index: 12222222;
+    position: absolute;
+    display: flex;
+    width: 40%;
+    height: 30%;
+}
+
+.game-over > p {
+    padding-left: 35%;
+    padding-right: 30%;
+    height: 107px;
+    padding-top: 3%;
+    line-height: 200%;
+    font-size: 32px;
+}
