@@ -122,7 +122,14 @@ var bot = {
 
 // Init environnement
 function init() {
-    
+
+    //reload
+
+    $('.reload').on('click', function() {
+        location.reload();
+    });
+
+
     clock = new THREE.Clock();
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1500 );

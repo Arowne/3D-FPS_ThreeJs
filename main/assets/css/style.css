@@ -336,3 +336,18 @@ margin-left: 8%;
     line-height: 200%;
     font-size: 32px;
 }
+
+.reload {
+    width: 200px;
+    display: flex;
+    height: 110px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.reload > img {
+    height: 55px;
+    position: absolute;
+    right: 0px;
+}
