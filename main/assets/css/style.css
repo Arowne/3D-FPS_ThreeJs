@@ -282,3 +282,20 @@ height: 50%;
 margin-left: 8%;
 }
 
+.success {
+    z-index: 12222222;
+    position: absolute;
+    display: flex;
+    width: 40%;
+    height: 20%;
+    border: 5px solid darkslategray;
+    background-color: rgba(0, 47, 94, 0.85);
+}
+
+.success > p {
+    padding-left: 6%;
+    padding-right: 6%;
+    height: 107px;
+    padding-top: 3%;
+    line-height: 200%;
+}
