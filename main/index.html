@@ -238,6 +238,57 @@
 					color: #ffffff;
 				}
 
+			.text-content {
+				z-index: 12222222;
+				position: absolute;
+				display: flex;
+				width: 40%;
+				height: 30%;
+				border: 5px solid darkslategray;
+				background-color: rgba(0, 47, 94, 0.85);
+			}
+
+			.content {
+
+			}
+
+			.text-content .content > h3 {
+				border: 5px solid darkslategray;
+				height: 17%;
+				padding-top: 5%;
+				padding-left: 5%;
+				margin-top: 0px;
+			}
+
+				.text-content .content > p {
+					padding-left: 6%;
+					padding-right: 6%;
+					height: 107px;
+					padding-top: 3%;
+					line-height: 200%;
+				}
+			.robot-killed {
+				width: 200px;
+
+				height: 110px;
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				border: 5px solid darkslategray;
+			}
+
+			.robot-killed > h3 {
+				margin-left: 8%;
+			}
+
+			#compteur {
+				color: white;
+				height: 50%;
+				margin-left: 8%;
+			}
+
+
+
 			</style>
 
 			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -340,6 +391,25 @@
 				<img  id="bullet" src="assets/img/bullet.png" alt="grenade">
 				<p id="pbullet"></p>
 			</div>
+		</div>
+
+		<div class="text-content" id="text-content">
+			<div class="content">
+				<h3>
+					Brandon
+				</h3>
+				<p id="text">
+					Bonjour humain,
+					Pour pouvoir vous sortir de ce merdier,
+					Il vous faudra tuer 10 robots fou afin de débloquer l'accès à l'avion.
+					Bonne chance !
+				</p>
+			</div>
+		</div>
+
+		<div class="robot-killed">
+			<h3>Robot tué</h3>
+			<p id="compteur"></p>
 		</div>
 
 
